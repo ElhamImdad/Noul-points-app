@@ -1,0 +1,44 @@
+
+@import './colors.scss';
+
+.Overview-container {
+    background-color: $dark-grey;
+    min-height: 100vh;
+}
+.site-card-wrapper{
+    padding: 30px;
+    // background-color: $dark-grey;
+    align-content: flex-start;
+}
+.font-16px{
+    font-size: 16px;
+}
+.icon-cd-size{
+    font-size: 20px;
+    padding: 0.5rem;
+}
+.cd-content{
+    text-align: center;
+    padding-bottom: 1rem;
+}
+.tx-aln-right{
+    text-align: right;
+}
+.Pd-lr-30px{
+    padding:0px 30px;
+}
+.Pd-lr-30px{
+    padding:0px 30px;
+}
+.Pd-lr-10px{
+    padding:0px 10px !important;
+}
+.img-btn{
+    color: $white !important;
+    background-color: $lightPurple !important;
+    border-color: $lightPurple !important;
+}
+.btn-tx-hv:hover{
+    color: $lightPurple !important;
+    border-color: $lightPurple !important;
+}
