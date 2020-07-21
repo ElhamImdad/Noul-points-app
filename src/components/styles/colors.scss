@@ -1,26 +1,21 @@
 .danger{
-    color: rgb(255,93,132)6;
+    color: rgb(255,93,132) !important;
 }
 .warninng{
-    color: rgb(254,211,58);
+    color: rgb(254,211,58) !important;
 }
 .success{
-    color: rgb(60,213,97);
+    color: rgb(60,213,97) !important;
 }
 
 
 .blue_light{
-    color: #0490FE;
+    color: #0490FE !important;
 }
-.color_primary_dark{
-    color: #384364;
-}
-
+$color-primary-dark: #384364;
 $color_primary: #6B5CA8;
 $lightPurple: #7E67D6;
 $white: #FFFFFF;
 $dark-grey: #888EA2;
 
-.bg_dark{
-    background-color: #FAFBFF ;
-}
+$bg_light: #FAFBFF ;

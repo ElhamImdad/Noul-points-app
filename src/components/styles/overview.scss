@@ -2,16 +2,13 @@
 @import './colors.scss';
 
 .Overview-container {
-    background-color: $dark-grey;
+    background-color: $bg_light;
     min-height: 100vh;
 }
 .site-card-wrapper{
     padding: 30px;
-    // background-color: $dark-grey;
+    // background-color: $bg_light;
     align-content: flex-start;
-}
-.font-16px{
-    font-size: 16px;
 }
 .icon-cd-size{
     font-size: 20px;
@@ -21,8 +18,17 @@
     text-align: center;
     padding-bottom: 1rem;
 }
-.tx-aln-right{
-    text-align: right;
+.font-16px{
+    font-size: 16px;
+}
+.font-20px{
+    font-size: 20px;
+}
+.tx-aln-end{
+    text-align: end !important;
+}
+.tx-aln-start{
+    text-align: start;
 }
 .Pd-lr-30px{
     padding:0px 30px;
@@ -33,12 +39,29 @@
 .Pd-lr-10px{
     padding:0px 10px !important;
 }
+.mg-10px{
+    margin: 0px 10px;
+}
 .img-btn{
     color: $white !important;
     background-color: $lightPurple !important;
     border-color: $lightPurple !important;
 }
-.btn-tx-hv:hover{
-    color: $lightPurple !important;
-    border-color: $lightPurple !important;
+// %toolbelt {
+// border-top: 1px $dark-grey solid;
+// color: $dark-grey !important;
+// &:hover { border: 2px $lightPurple solid !important;
+//     color: $lightPurple !important; }
+// }
+// .btn-tx-action {
+// @extend %toolbelt;
+// color: $lightPurple !important;
+// }
+// .btn-tx-reset {
+// @extend %toolbelt;
+// color: $dark-grey !important;
+// }
+.btn-tx{
+    &:hover { border: 2px $lightPurple solid !important;
+        color: $lightPurple !important; }
 }

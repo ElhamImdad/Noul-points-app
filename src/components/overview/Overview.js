@@ -13,41 +13,41 @@ const Overview = () => {
                 <Row gutter={[16, 16]}>
                     <Col span={6}>
                         <Card style={{borderRadius: '7px'}}  bordered={false}>
-                            <ScheduleOutlined className="icon-cd-size" style={{color: '#0490FE'}}/> 
+                            <ScheduleOutlined className="icon-cd-size blue_light"/> 
                             <strong className="font-16px blue_light">Total Order</strong>
-                            
                             <div className="cd-content">
                                 <h2>50</h2>
                                 Your total Orders Number is 50
                             </div>
                         </Card>
                     </Col>
+
                     <Col span={6}>
                         <Card style={{borderRadius: '7px'}}  bordered={false}>
-                                <PauseCircleOutlined className="icon-cd-size" style={{color: 'rgb(254,211,58)'}}/> 
+                                <PauseCircleOutlined className="icon-cd-size warninng"/> 
                                 <strong className="font-16px warninng">On hold</strong>
-                                
                                 <div className="cd-content">
                                     <h2>50</h2>
                                     You have 50 order On hold by points
                                 </div>
                         </Card>
                     </Col>
+
                     <Col span={6}>
                         <Card style={{borderRadius: '7px'}}  bordered={false}>
-                            <CheckCircleOutlined className="icon-cd-size" style={{color: 'rgb(60,213,97)'}}/> 
+                            <CheckCircleOutlined className="icon-cd-size success"/> 
                             <strong className="font-16px success">Released</strong>
-                            
                             <div className="cd-content">
                                 <h2>50</h2>
                                 You have released 50 order from your points
                             </div>
                         </Card>
                     </Col>
+                    
                     <Col span={6}>
                         <Card style={{borderRadius: '7px'}}  bordered={false}>
-                            <ClockCircleOutlined className="icon-cd-size" style={{color: '#e77f08ee'}}/> 
-                            <strong className="font-16px orange">Active points</strong>
+                            <ClockCircleOutlined className="icon-cd-size orange"/> 
+                            <strong className="font-16px">Active points</strong>
                             
                             <div className="cd-content">
                                 <h2>50</h2>
