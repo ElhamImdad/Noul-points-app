@@ -2,8 +2,7 @@ import React from 'react';
 import Report from './Report';
 import '../styles/colors.scss';
 import '../styles/overview.scss';
-import 'antd/dist/antd.css';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Statistic } from 'antd';
 import { PauseCircleOutlined, CheckCircleOutlined, ScheduleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 const Overview = () => {
@@ -16,6 +15,7 @@ const Overview = () => {
                             <ScheduleOutlined className="icon-cd-size blue_light"/> 
                             <strong className="font-16px blue_light">Total Order</strong>
                             <div className="cd-content">
+                            {/* <Statistic className="mg-10px" style={{fontSize: '5px'}} value={112893} /> */}
                                 <h2>50</h2>
                                 Your total Orders Number is 50
                             </div>

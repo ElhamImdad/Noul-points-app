@@ -19,16 +19,16 @@
     padding-bottom: 1rem;
 }
 .font-16px{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 .font-20px{
     font-size: 20px;
 }
 .tx-aln-end{
-    text-align: end !important;
+    text-align: end ;
 }
 .tx-aln-start{
-    text-align: start;
+    text-align: start ;
 }
 .Pd-lr-30px{
     padding:0px 30px;
@@ -39,28 +39,17 @@
 .Pd-lr-10px{
     padding:0px 10px !important;
 }
-.mg-10px{
+.mg-lr-10px{
     margin: 0px 10px;
+}
+.mg-10px{
+    margin: 10px;
 }
 .img-btn{
     color: $white !important;
     background-color: $lightPurple !important;
     border-color: $lightPurple !important;
 }
-// %toolbelt {
-// border-top: 1px $dark-grey solid;
-// color: $dark-grey !important;
-// &:hover { border: 2px $lightPurple solid !important;
-//     color: $lightPurple !important; }
-// }
-// .btn-tx-action {
-// @extend %toolbelt;
-// color: $lightPurple !important;
-// }
-// .btn-tx-reset {
-// @extend %toolbelt;
-// color: $dark-grey !important;
-// }
 .btn-tx{
     &:hover { border: 2px $lightPurple solid !important;
         color: $lightPurple !important; }
