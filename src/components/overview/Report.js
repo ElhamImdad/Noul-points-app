@@ -5,6 +5,7 @@ import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import { CSVLink, CSVDownload } from "react-csv";
 
 const Report = () => {
     const { Search } = Input;
@@ -42,8 +43,8 @@ const Report = () => {
                             <strong className="font-20px">Report</strong>
                         </label>
                     </li> 
-                    <li>
-                        
+
+                    <li>  
                     <span className="tx-aln-end">
                         <ul className="flex-container space-between">
                             <li className="mg-lr-5px">
@@ -67,13 +68,8 @@ const Report = () => {
                             </li>
                         </ul>
                     </span>
-
                     </li>
-                
-                 </ul>
-                
-
-               
+                </ul>
                 <br/>
             </div>
 
@@ -89,6 +85,15 @@ const Report = () => {
                 <Table rowSelection={onSelectChange} columns={columns} dataSource={data} />
             </div>
 
+            <div>
+                <Button variant="warning">
+                    <CSVLink data={data} filename={"NoulReport.csv"} target="_blank"
+                        onClick={() => {
+                            console.log("You click the link"); // 👍🏻 Your click handling logic
+                          }}
+                    >Export</CSVLink>
+                </Button>
+            </div>
         </div>
     );
 };
