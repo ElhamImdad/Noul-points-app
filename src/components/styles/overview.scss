@@ -3,20 +3,19 @@
 
 .Overview-container {
     background-color: $bg_light;
-    min-height: 100vh;
 }
-.site-card-wrapper{
-    padding: 30px;
-    // background-color: $bg_light;
-    align-content: flex-start;
+.container{
+    width:100%;
+    padding: 20px;
+    margin: auto;
 }
 .icon-cd-size{
-    font-size: 20px;
+    //font-size: 20px;
     padding: 0.5rem;
 }
 .cd-content{
     text-align: center;
-    padding-bottom: 1rem;
+    // padding-bottom: 1rem;
 }
 .font-16px{
     font-size: 16px !important;
@@ -26,12 +25,15 @@
 }
 .tx-aln-end{
     text-align: end ;
+    align-content: flex-end;
 }
 .tx-aln-start{
     text-align: start ;
+    align-content: flex-start;
 }
-.Pd-lr-30px{
-    padding:0px 30px;
+
+.ht-15vh{
+    height: 50vh;
 }
 .Pd-lr-30px{
     padding:0px 30px;
@@ -41,6 +43,9 @@
 }
 .mg-lr-10px{
     margin: 0px 10px;
+}
+.mg-lr-5px{
+    margin: 0px 5px;
 }
 .mg-10px{
     margin: 10px;
@@ -53,4 +58,13 @@
 .btn-tx{
     &:hover { border: 2px $lightPurple solid !important;
         color: $lightPurple !important; }
+}
+.space-between{
+    justify-content: space-between !important;
+}
+.flex-container{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
 }

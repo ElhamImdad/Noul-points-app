@@ -10,14 +10,14 @@ const Report = () => {
     const { Search } = Input;
 
     const [selectedRowKeys,setSelectedRowKeys] = useState([]);
-    //const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(false);
 
     const start = () => {
-      //  setLoading(true);
+        setLoading(true);
        
         setTimeout(() => {
             setSelectedRowKeys([]);
-           // setLoading(false);
+            setLoading(false);
         }, 1000);
     };
 
@@ -26,6 +26,7 @@ const Report = () => {
         setSelectedRowKeys({ selectedRowKeys });
     };
 
+    //const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: onSelectChange,
@@ -33,40 +34,59 @@ const Report = () => {
     const hasSelected = selectedRowKeys.length > 0;
     
     return (
-        <div className="Pd-lr-30px">
-            <div className="tx-aln-end">
-                <label className="tx-aln-start" style={{float: "inline-start"}}>
-                    <strong className="font-20px" style={{float: "inline-start"}}>Report</strong>
-                </label>
+        <div>
+            <div className="">
+                <ul className="flex-container space-between" >
+                    <li>
+                        <label>
+                            <strong className="font-20px">Report</strong>
+                        </label>
+                    </li> 
+                    <li>
+                        
+                    <span className="tx-aln-end">
+                        <ul className="flex-container space-between">
+                            <li className="mg-lr-5px">
+                                <Search
+                                    placeholder="Search by name or Tracking ID"
+                                    onSearch={value => console.log(value)}
+                                />
+                            </li>
+                            <li className="mg-lr-5px">
+                                <DatePicker.RangePicker/>
+                            </li>
+                            <li className="mg-lr-5px">
+                                <Radio.Group>
+                                    <Radio.Button value="All">All</Radio.Button>
+                                    <Radio.Button value="Collected">Collected</Radio.Button>
+                                    <Radio.Button value="Released">Released</Radio.Button>
+                                </Radio.Group>
+                            </li>
+                            <li>
+                            <Button className="img-btn mg-lr-5px" icon={<DownloadOutlined/>} />
+                            </li>
+                        </ul>
+                    </span>
 
-                <Search className="btn-tx mg-lr-10px"
-                        placeholder="Search by name or Tracking ID"
-                        onSearch={value => console.log(value)}
-                        style={{ width: '16%' }}/>
-
-                <DatePicker.RangePicker className="btn-tx"
-                                        style={{ width: '16%', placeholder: 'From' }} />
-
-                <Radio.Group className="Pd-lr-10px">
-                    <Radio.Button className="btn-tx" value="All">All</Radio.Button>
-                    <Radio.Button className="btn-tx" value="Collected">Collected</Radio.Button>
-                    <Radio.Button className="btn-tx" value="Released">Released</Radio.Button>
-                </Radio.Group>
-
-                <Button className="img-btn" icon={<DownloadOutlined/>} />
+                    </li>
                 
+                 </ul>
+                
+
+               
+                <br/>
             </div>
 
             <div>
                 <div style={{ marginBottom: 16 }}>
-                {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
+                <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
                     Reload
-                </Button> */}
+                </Button>
                 <span style={{ marginLeft: 8 }}>
                     {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
                 </div>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+                <Table rowSelection={onSelectChange} columns={columns} dataSource={data} />
             </div>
 
         </div>
