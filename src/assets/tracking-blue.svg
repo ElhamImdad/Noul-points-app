@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="58" height="59" viewBox="0 0 58 59">
+  <defs>
+    <filter id="Bound" x="0" y="0" width="58" height="59" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#0490fe" flood-opacity="0.18"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Icon" transform="translate(10.13 5)">
+    <g transform="matrix(1, 0, 0, 1, -10.13, -5)" filter="url(#Bound)">
+      <rect id="Bound-2" data-name="Bound" width="40" height="41" rx="12" transform="translate(9 5)" fill="#0490fe"/>
+    </g>
+    <g id="airport_shuttle" transform="translate(-772.13 -3911)">
+      <rect id="Path" width="24" height="24" transform="translate(778 3920)" fill="rgba(0,0,0,0)"/>
+      <g id="box" transform="translate(763.874 3919)">
+        <g id="Group_314" data-name="Group 314" transform="translate(28.277 12.695)">
+          <g id="Group_313" data-name="Group 313" transform="translate(0)">
+            <path id="Path_138" data-name="Path 138" d="M269.758,281.694a5.19,5.19,0,1,0,5.189,5.19A5.2,5.2,0,0,0,269.758,281.694Zm-.606,7.364-1.953-1.933.952-.962.993.983,2.216-2.229.96.955Z" transform="translate(-264.568 -281.694)" fill="#fff"/>
+          </g>
+        </g>
+        <g id="Group_316" data-name="Group 316" transform="translate(17.126)">
+          <g id="Group_315" data-name="Group 315" transform="translate(0)">
+            <path id="Path_139" data-name="Path 139" d="M27.1,0,17.126,5.761V17.282L27.1,23.043l1.453-.839a6.571,6.571,0,0,1-.789-1.108l-.664.383-.677-.391V11.912L18.48,7.324V6.542l.677-.391L27.1,10.74l3.3-1.9L22.453,4.248l1.354-.782,7.947,4.588,3.3-1.9.677.391v.782l-7.947,4.588v2.737a6.537,6.537,0,0,1,9.3-2.216V5.761Z" transform="translate(-17.126)" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

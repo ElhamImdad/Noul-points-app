@@ -1,9 +1,13 @@
 import React from 'react';
 import Report from './Report';
-import '../styles/colors.scss';
-import '../styles/overview.scss';
+import '../../styles/colors.scss';
+import '../../styles/overview.scss';
+import '../../fonts/Tajawal-Regular.ttf';
+import trackingBlue from '../../assets/tracking-blue.svg';
+import trackingYello from '../../assets/tracking-yello.svg';
+import trackingActive from '../../assets/track-by-id.svg';
+import trackingGreen from '../../assets/order-success-icon.svg';
 import { Card, Col, Row, Statistic } from 'antd';
-import { PauseCircleOutlined, CheckCircleOutlined, ScheduleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 const Overview = () => {
     return (
@@ -13,8 +17,8 @@ const Overview = () => {
                     <Col span={6}>
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
-                            <h3>    
-                                <ScheduleOutlined className="icon-cd-size blue_light"/> 
+                            <h3> 
+                                <img src={trackingBlue}/>
                                 <strong className="blue_light">Total Order</strong>
                             </h3>
                             <div className="cd-content">
@@ -29,7 +33,7 @@ const Overview = () => {
                         <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <h3>   
-                                    <PauseCircleOutlined className="icon-cd-size warninng"/> 
+                                    <img src={trackingYello}/>
                                     <strong className="warning">On hold</strong>
                                 </h3>
                                 <div className="cd-content">
@@ -43,7 +47,7 @@ const Overview = () => {
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
                             <h3>
-                                <CheckCircleOutlined className="icon-cd-size success"/> 
+                                <img src={trackingGreen}/>
                                 <strong className="success">Released</strong>
                             </h3>
                             <div className="cd-content">
@@ -57,7 +61,7 @@ const Overview = () => {
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
                             <h3>
-                                <ClockCircleOutlined className="icon-cd-size orange"/> 
+                                <img src={trackingActive}/>
                                 <strong className="">Active points</strong>
                             </h3>
                             <div className="cd-content">

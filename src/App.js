@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.css';
-import './components/styles/my-theme.css';
+import './styles/my-theme.css';
+import './fonts/Tajawal-Regular.ttf';
+import './index';
 import './App.css';
 import Overview from './components/overview/Overview';
 

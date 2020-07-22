@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="76" height="76" viewBox="0 0 76 76">
+  <defs>
+    <filter id="Bound" x="0" y="0" width="76" height="76" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#fed33a" flood-opacity="0.078"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Icon" transform="translate(10.13 5)">
+    <g transform="matrix(1, 0, 0, 1, -10.13, -5)" filter="url(#Bound)">
+      <rect id="Bound-2" data-name="Bound" width="58" height="58" rx="8" transform="translate(9 5)" fill="#fef6ca"/>
+    </g>
+    <g id="airport_shuttle" transform="translate(10.87 12)">
+      <rect id="Path" width="36" height="36" fill="rgba(0,0,0,0)"/>
+      <path id="Icon-2" data-name="Icon" d="M783,3932h25.824v2.869h-1.119a4.254,4.254,0,0,0-6.37,0H790.489a4.254,4.254,0,0,0-6.37,0H783Z" transform="translate(-777.784 -3913.872)" fill="#fef6ca"/>
+    </g>
+    <g id="Box" transform="translate(17.193 20.322)">
+      <path id="Path_9" data-name="Path 9" d="M36,3l.7,4.218h8.084L42.678,3Z" transform="translate(-24.05 -2.649)" fill="#f8e087"/>
+      <path id="Path_10" data-name="Path 10" d="M11.787,3H5.109L3,7.218h8.084Z" transform="translate(-2.649 -2.649)" fill="#f8e087"/>
+      <path id="Path_11" data-name="Path 11" d="M3,15H23.386V31.168H3Z" transform="translate(-2.649 -10.431)" fill="#fed33a"/>
+      <path id="Path_13" data-name="Path 13" d="M30.218,7.218,29.515,3H26.7L26,7.218Z" transform="translate(-17.564 -2.649)" fill="#ffa733"/>
+      <path id="Path_14" data-name="Path 14" d="M26,22.03l2.123-1.757,2.1,1.757V15H26Z" transform="translate(-17.564 -10.431)" fill="#ffb655"/>
+      <path id="Path_15" data-name="Path 15" d="M9,43h7.03v4.218H9Z" transform="translate(-6.54 -28.589)" fill="#ffeb99"/>
+      <g id="Group_1" data-name="Group 1">
+        <path id="Path_16" data-name="Path 16" d="M23.054,6.412,20.945,2.194A.351.351,0,0,0,20.629,2H4.46a.351.351,0,0,0-.315.194L2.037,6.412A.351.351,0,0,0,2,6.569V22.738a.351.351,0,0,0,.351.351H22.738a.351.351,0,0,0,.351-.351V6.569A.351.351,0,0,0,23.054,6.412Zm-.885-.194H14.951L14.365,2.7h6.046Zm-11.382.7H14.3v5.925l-1.518-1.273a.351.351,0,0,0-.45,0l-1.547,1.279ZM13.653,2.7l.586,3.515H10.851L11.436,2.7Zm-8.975,0h6.046l-.585,3.515H2.92ZM2.7,22.386V6.921h7.381V13.6a.351.351,0,0,0,.576.271l1.9-1.57,1.871,1.569A.351.351,0,0,0,15,13.6V6.921h7.381V22.386Z" transform="translate(-2 -2)" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="58" height="59" viewBox="0 0 58 59">
+  <defs>
+    <filter id="Bound" x="0" y="0" width="58" height="59" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#6b5ca8" flood-opacity="0.18"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Icon" transform="translate(10.13 5)">
+    <g transform="matrix(1, 0, 0, 1, -10.13, -5)" filter="url(#Bound)">
+      <rect id="Bound-2" data-name="Bound" width="40" height="41" rx="12" transform="translate(9 5)" fill="#9380de"/>
+    </g>
+    <g id="airport_shuttle" transform="translate(-772.13 -3911)">
+      <rect id="Path" width="24" height="24" transform="translate(780 3920)" fill="rgba(0,0,0,0)"/>
+      <path id="Icon-2" data-name="Icon" d="M783,3932h18v2h-.78a2.965,2.965,0,0,0-4.44,0h-7.56a2.965,2.965,0,0,0-4.44,0H783Z" fill="#6b5ca8"/>
+      <path id="Icon-3" data-name="Icon" d="M798,3939a3,3,0,0,1-3-3h-6a3,3,0,1,1-6,0h-2v-9a2,2,0,0,1,2-2h14l6,6v5h-2A3,3,0,0,1,798,3939Zm0-4.25a1.25,1.25,0,1,0,1.25,1.25A1.252,1.252,0,0,0,798,3934.75Zm-12,0a1.25,1.25,0,1,0,1.25,1.25A1.252,1.252,0,0,0,786,3934.75Zm12-1.75a3,3,0,0,1,2.219,1H801v-2H783v2h.78a2.965,2.965,0,0,1,4.44,0h7.56A3,3,0,0,1,798,3933Zm-3-6v3h4l-3-3Zm-6,0v3h4v-3Zm-6,0v3h4v-3Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -36,7 +36,7 @@ input::-ms-reveal {
   box-sizing: border-box;
 }
 html {
-  font-family: sans-serif;
+  font-family: 'Tajawal' !important;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -176,7 +176,7 @@ code,
 kbd,
 samp {
   font-size: 1em;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-family: 'Tajawal';
 }
 pre {
   margin-top: 0;
@@ -7864,7 +7864,7 @@ textarea.ant-picker-input > input {
   margin-right: 4px;
   color: #ff4d4f;
   font-size: 14px;
-  font-family: SimSun, sans-serif;
+  font-family: 'Tajawal';
   line-height: 1;
   content: '*';
 }
@@ -16518,7 +16518,7 @@ textarea.ant-mentions {
   min-width: 32px;
   height: 32px;
   margin-right: 8px;
-  font-family: Arial;
+  font-family: 'Tajawal';
   line-height: 30px;
   text-align: center;
   vertical-align: middle;
@@ -16629,7 +16629,7 @@ textarea.ant-mentions {
   min-width: 32px;
   height: 32px;
   color: rgba(0, 0, 0, 0.65);
-  font-family: Arial;
+  font-family: 'Tajawal';
   line-height: 32px;
   text-align: center;
   vertical-align: middle;
@@ -24154,4 +24154,8 @@ div.ant-typography-edit-content.ant-typography-rtl {
 }
 .ant-upload-list-rtl.ant-upload-list-picture-card .ant-upload-list-item-info {
   padding: 0;
+}
+@font-face {
+  font-family: 'Tajawal' !important;
+  src: local('Tajawal'), url(../fonts/Tajawal-Regular.ttf) format('truetype') !important;
 }

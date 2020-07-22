@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import '../styles/overview.scss';
-import '../styles/my-theme.css';
+import '../../styles/overview.scss';
+import '../../styles/my-theme.css';
+import '../../fonts/Tajawal-Regular.ttf';
 import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
