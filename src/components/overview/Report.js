@@ -3,31 +3,44 @@ import '../styles/overview.scss';
 import '../styles/my-theme.css';
 import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
-import { Table } from 'antd';
+import { Table, Tag } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { CSVLink, CSVDownload } from "react-csv";
 
 const Report = () => {
     const { Search } = Input;
 
-    const [selectedRowKeys,setSelectedRowKeys] = useState([]);
-    const [loading,setLoading] = useState(false);
+    let [selectedRowKeys,setSelectedRowKeys] = useState([]);
+    //let [loading,setLoading] = useState(false);
+    let [dataSelected,setDataSelected] = useState([]);
 
-    const start = () => {
-        setLoading(true);
+    // const start = () => {
+    //     setLoading(true);
        
-        setTimeout(() => {
-            setSelectedRowKeys([]);
-            setLoading(false);
-        }, 1000);
-    };
-
+    //     setTimeout(() => {
+    //         setDataSelected([]);
+    //         setSelectedRowKeys([]);
+    //         setLoading(false);
+    //     }, 1000);
+    // };
+    
+    let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        setSelectedRowKeys({ selectedRowKeys });
+        setSelectedRowKeys( selectedRowKeys );    
+        setDataSelected ( data.filter(
+            s1 => selectedRowKeys.some(
+                s2 => s1.key === s2)).map(
+                    s => (property.reduce(
+                        (newS, data1) => {
+                            newS[data1] = s[data1];
+                            return newS;
+                        }, {})
+                    )
+                )
+        );
     };
-
-    //const { loading, selectedRowKeys } = this.state;
+    console.log('the data in new array',dataSelected);
     const rowSelection = {
       selectedRowKeys,
       onChange: onSelectChange,
@@ -37,7 +50,7 @@ const Report = () => {
     return (
         <div>
             <div className="">
-                <ul className="flex-container space-between" >
+                <ul className="flex-container space-between mg-top-5px" >
                     <li>
                         <label>
                             <strong className="font-20px">Report</strong>
@@ -64,7 +77,12 @@ const Report = () => {
                                 </Radio.Group>
                             </li>
                             <li>
-                            <Button className="img-btn mg-lr-5px" icon={<DownloadOutlined/>} />
+                                { hasSelected?
+                                <CSVLink data={dataSelected} filename={"NoulReport.csv"} target="_blank">
+                                    <Button className="img-btn mg-lr-5px" icon={<DownloadOutlined/>}></Button>
+                                </CSVLink>
+                                : <Button className="img-btn mg-lr-5px" icon={<DownloadOutlined/>}></Button>
+                                }
                             </li>
                         </ul>
                     </span>
@@ -73,26 +91,16 @@ const Report = () => {
                 <br/>
             </div>
 
-            <div>
-                <div style={{ marginBottom: 16 }}>
-                <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
+            <div style={{ marginBottom: 8 }}>
+                <div>
+                {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
                     Reload
                 </Button>
                 <span style={{ marginLeft: 8 }}>
                     {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                </span>
+                </span> */}
                 </div>
-                <Table rowSelection={onSelectChange} columns={columns} dataSource={data} />
-            </div>
-
-            <div>
-                <Button variant="warning">
-                    <CSVLink data={data} filename={"NoulReport.csv"} target="_blank"
-                        onClick={() => {
-                            console.log("You click the link"); // 👍🏻 Your click handling logic
-                          }}
-                    >Export</CSVLink>
-                </Button>
+                <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
             </div>
         </div>
     );
@@ -101,7 +109,20 @@ const columns = [
     {title: 'Tracking ID', dataIndex: 'trackingId',},
     {title: 'Customer name', dataIndex: 'customerName',},
     {title: 'Phone', dataIndex: 'phone',},
-    {title: 'Payment Status', dataIndex: 'paymentStatus',},
+    {title: 'Payment Status', dataIndex: 'paymentStatus',
+    render: paymentStatus => (
+        <>
+          {paymentStatus => {
+            let color = paymentStatus === 'Unpaid' ? 'warning' : 'success';
+            return (
+              <Tag color={color} key={paymentStatus}>
+                {paymentStatus}
+              </Tag>
+            );
+          }}
+        </>
+      ),
+    },
     {title: 'Cost', dataIndex: 'cost',},
     {title: 'Point', dataIndex: 'point',},
 ];
@@ -113,7 +134,7 @@ for (let i = 0; i < 20; i++) {
     trackingId: 22,
     customerName: `Elham ${i}`,
     phone: 22,
-    paymentStatus: 22,
+    paymentStatus: 'Unpaid',
     cost: 22,
     point: 22,
   });

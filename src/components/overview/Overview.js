@@ -30,7 +30,7 @@ const Overview = () => {
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <h3>   
                                     <PauseCircleOutlined className="icon-cd-size warninng"/> 
-                                    <strong className="warninng">On hold</strong>
+                                    <strong className="warning">On hold</strong>
                                 </h3>
                                 <div className="cd-content">
                                     <h3>50</h3>
