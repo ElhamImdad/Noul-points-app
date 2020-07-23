@@ -14,7 +14,8 @@ const Overview = () => {
         <div className= "Overview-container container">         
             <div>
                 <Row gutter={[16, 16]}>
-                    <Col span={6}>
+                    <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }}
+                        lg={{ span: 6 }} xl={{ span: 6 }}>
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
                             <h3> 
@@ -29,7 +30,8 @@ const Overview = () => {
                         </Card>
                     </Col>
 
-                    <Col span={6}>
+                    <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }}
+                        lg={{ span: 6 }} xl={{ span: 6 }}>
                         <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <h3>   
@@ -43,7 +45,8 @@ const Overview = () => {
                         </Card>
                     </Col>
 
-                    <Col span={6}>
+                    <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }}
+                        lg={{ span: 6 }} xl={{ span: 6 }}>
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
                             <h3>
@@ -57,7 +60,8 @@ const Overview = () => {
                         </Card>
                     </Col>
                     
-                    <Col span={6}>
+                    <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }}
+                        lg={{ span: 6 }} xl={{ span: 6 }}>
                         <Card 
                             style={{borderRadius: '7px'}}  bordered={false}>
                             <h3>
