@@ -113,14 +113,14 @@ const columns = [
     {title: 'Payment Status', dataIndex: 'paymentStatus',
     render: paymentStatus => (
         <>
-          {paymentStatus => {
+          {paymentStatus.map(paymentStatus => {
             let color = paymentStatus === 'Unpaid' ? 'warning' : 'success';
             return (
               <Tag color={color} key={paymentStatus}>
                 {paymentStatus}
               </Tag>
             );
-          }}
+          })}
         </>
       ),
     },
@@ -135,7 +135,7 @@ for (let i = 0; i < 20; i++) {
     trackingId: 22,
     customerName: `Elham ${i}`,
     phone: 22,
-    paymentStatus: 'Unpaid',
+    paymentStatus: ['Unpaid'],
     cost: 22,
     point: 22,
   });

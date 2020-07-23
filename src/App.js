@@ -92,10 +92,7 @@ function App() {
                     </div>
                 </Header>
             </div>
-            {/*Overview page*/}
-            <header className="App-header">
-            </header>
-            <Overview/>
+            <Overview/>            
         </Layout>
 
         </Layout>
