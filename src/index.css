@@ -1,7 +1,3 @@
-@font-face {
-  font-family: 'Tajawal' !important;
-  src: local('Tajawal'), url(./fonts/Tajawal-Regular.ttf) format('truetype') !important;
-}
 body {
   margin: 0;
   /* font-family: 'Tajawal' !important; */

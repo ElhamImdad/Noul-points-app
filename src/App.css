@@ -1,7 +1,11 @@
-.App {
-  font-family: 'Tajawal' !important;
+@font-face {
+  font-family: 'Tajawal';
+  src: local('Tajawal'), url(./fonts/Tajawal-Regular.ttf) format('truetype');
 }
+*{
+  font-family: Tajawal ;
 
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
