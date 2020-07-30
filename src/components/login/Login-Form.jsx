@@ -91,7 +91,7 @@ const LoginForm = () => {
             {/* Here i should send the data to the API*/}
             <PrimaryButton
               className="login-form-button"
-              onClick={() => handleSubmit}
+              onClick={() => handleSubmit()}
             >
               {("Login.2")}
             </PrimaryButton>
