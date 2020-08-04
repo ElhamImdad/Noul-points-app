@@ -46,15 +46,15 @@ const LoginForm = (props) => {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
       }};
-    axios.post('https://dev.api.noul.net/api/V1/auth/login', postData, axiosConfig)
+    axios.post('https://api.point.noul.net/api/v1/user/login', postData, axiosConfig)
     .then((res) => {
-        //console.log("from response ==>  "+res.data.accessToken);
+        //console.log("from response ==>  "+res.data.token);
         setData(res.data);
-        if (res.data.accessToken !== null){
+        if (res.data.token !== null){
           history.push("/home");
         }
      
-        const { token } = res.data.accessToken;
+        const { token } = res.data.token;
         //localStorage.setItem('token', token);
         sessionStorage.setItem('token', token);
         actions.setSubmitting(false);
