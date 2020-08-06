@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import Overview from '../overview/Overview';
 import {Layout,Dropdown,Avatar , Menu} from "antd";
+import AddUserPoint from '../points/AddUserPoint';
+import AddPointForm from '../points/AddPointForm';
+import AddPoint from '../points/AddPoint';
+
 
 const { Header, Sider, Link} = Layout;
 const {Item,Divider} = Menu ;
@@ -69,6 +73,7 @@ const UserMenu = () => {
                     </Header>
                 </div>
                 <Overview/>
+                <AddPoint/>
             </Layout>
         </Layout>
     );
