@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import {  Modal, Button, Steps, message } from 'antd';
-import { Formik, useField, Field,Form } from "formik";
+import {Modal, Button, Steps, message, Row , Col , Form} from 'antd';
+import { Formik, useField, Field } from "formik";
 import * as Yup from 'yup';
+import {ProfileInput} from "../global-styled-components/Inputs";
+import {PrimaryButton} from "../global-styled-components/Buttons";
 
 const AddPointForm = () => {
     const [step, setStep] = useState(1);
@@ -113,43 +115,81 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
           }}
           validationSchema={validationSchema}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched ,handleSubmit}) => (
             <Form >
-                <label> Name</label>
-              <Field
-                name='Name'
-                // label='First Name *'
-                margin='normal'
-             
-                error={touched.Name && errors.Name}
-                helperText={touched.firstName && errors.firstName}
-              />
-              <label>Email</label>
-              <Field
-                type='email'
-                name='email'
-               // label='Email *'
-                margin='normal'
-             
-                error={touched.email && errors.email}
-                helperText={touched.email && errors.email}
-              />
-              <label>phone</label>
-              <Field
-                name='Phone_No'
-                //label='Phone_No *'
-                margin='normal'
-             
-                error={touched.lastName && errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-              />
-              <button
-                type='submit'
-                variant='contained'
-                color='primary'
-              >
-                Next
-              </button>
+                <Row gutter={[16,16]}>
+                    <Col xs={24}>
+                        <label> Name</label>
+                        <ProfileInput
+                            name='Name'
+                            // label='First Name *'
+                            margin='normal'
+
+                            error={touched.Name && errors.Name}
+                            helperText={touched.firstName && errors.firstName}
+                        />
+                    </Col>
+
+                    <Col xs={24}>
+                        <label> Email</label>
+                        <ProfileInput
+                            name='email'
+                            // label='First Name *'
+
+                            error={touched.email && errors.email}
+                            helperText={touched.email && errors.email}
+                        />
+                    </Col>
+
+                    <Col xs={24}>
+                        <label> Phone</label>
+                        <ProfileInput
+                            name='phone'
+                            // label='First Name *'
+
+                            error={touched.phone && errors.phone}
+                            helperText={touched.phone && errors.phone}
+                        />
+                    </Col>
+                    <Row justify="start">
+                        <PrimaryButton
+                          onClick={handleSubmit()}
+                            variant='contained'
+                            color='primary'
+                        >
+                            Next
+                        </PrimaryButton>
+                    </Row>
+                </Row>
+
+              {/*<Field*/}
+              {/*  name='Name'*/}
+              {/*  // label='First Name *'*/}
+              {/*  margin='normal'*/}
+
+              {/*  error={touched.Name && errors.Name}*/}
+              {/*  helperText={touched.firstName && errors.firstName}*/}
+              {/*/>*/}
+              {/*<label>Email</label>*/}
+              {/*<Field*/}
+              {/*  type='email'*/}
+              {/*  name='email'*/}
+              {/* // label='Email *'*/}
+              {/*  margin='normal'*/}
+
+              {/*  error={touched.email && errors.email}*/}
+              {/*  helperText={touched.email && errors.email}*/}
+              {/*/>*/}
+              {/*<label>phone</label>*/}
+              {/*<Field*/}
+              {/*  name='Phone_No'*/}
+              {/*  //label='Phone_No *'*/}
+              {/*  margin='normal'*/}
+
+              {/*  error={touched.lastName && errors.lastName}*/}
+              {/*  helperText={touched.lastName && errors.lastName}*/}
+              {/*/>*/}
+
             </Form>
           )}
            </Formik>
