@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from 'react';
-import {Modal, Button, Steps, message, Row , Col , Form} from 'antd';
-import { Formik, useField, Field } from "formik";
+import {Modal, Button, Steps, message, Row , Col } from 'antd';
+import { Formik, useField, Field,Form} from "formik";
 import * as Yup from 'yup';
 import {ProfileInput} from "../global-styled-components/Inputs";
 import {PrimaryButton} from "../global-styled-components/Buttons";
 
-const AddPointForm = (endShowModal) => {
+const AddPointForm = () => {
   const [step, setStep] = useState(1);
   
   const [formData, setFormData] = useState({
       Name: '',
       email: '',
-      Phone_No: '',
+      phone: '',
       Commercial_Register_Number: '',
       Noul_Register_Number: '',
       long: 0,
@@ -29,9 +29,6 @@ const AddPointForm = (endShowModal) => {
             formData={formData}
             setFormData={setFormData}
             nextStep={nextStep}
-            // visible={visible}
-            // onCreate={onCreate}
-            // onCancel={onCancel}
           />
         );
       case 2:
@@ -41,10 +38,6 @@ const AddPointForm = (endShowModal) => {
             setFormData={setFormData}
             nextStep={nextStep}
             prevStep={prevStep}
-            // visible={visible}
-            // onCreate={onCreate}
-            // onCancel={onCancel}
-            endShowModal={endShowModal}
           />
         );
       // case 3:
@@ -62,7 +55,7 @@ const AddPointForm = (endShowModal) => {
     }
 };
 const validationSchema = Yup.object().shape({
-    Name: Yup.string()
+    name: Yup.string()
       .min(3, 'Must be at least 3 characters')
       .max(15, 'Must be 15 characters or less')
       .required(("InputRequired.1")),
@@ -87,26 +80,9 @@ const validationSchema = Yup.object().shape({
     //   )
 });
 const FormUserDetails = ({ formData, setFormData, nextStep}) => {
-  //const [form] = Form.useForm();
+
     return (
       <>
-        
-          {/* <Modal
-          visible={visible}
-          okText="Next"
-          onCancel={onCancel}
-          onOk={() => {
-            form
-              .validateFields()
-              .then(values => {
-                form.resetFields();
-                onCreate(values);
-              })
-              .catch(info => {
-                console.log('Validate Failed:', info);
-              });
-          }}
-          > */}
         <Formik
           initialValues={formData}
           onSubmit={values => {
@@ -116,14 +92,14 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
           }}
           validationSchema={validationSchema}
         >
-          {({ errors, touched ,handleSubmit}) => (
+          {({ values, errors, touched,
+          handleChange, handleBlur, handleSubmit,}) => (
             <Form >
-                <label> Name</label>
+              {/* <label> Name</label>
               <Field
-                name='Name'
+                name='name'
                 margin='normal'
-                error={touched.Name && errors.Name}
-                helperText={touched.firstName && errors.firstName}
+                error={touched.name && errors.name}
               />
               <label>Email</label>
               <Field
@@ -135,10 +111,9 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
               />
               <label>phone</label>
               <Field
-                name='Phone_No'
+                name='phone'
                 margin='normal'
-                error={touched.lastName && errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                error={touched.phone && errors.phone}
               />
               <button
                 type='submit'
@@ -146,17 +121,14 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
                 color='primary'
               >
                 Next
-              </button>
+              </button> */}
+
                 <Row gutter={[16,16]}>
                     <Col xs={24}>
                         <label> Name</label>
                         <ProfileInput
-                            name='Name'
-                            // label='First Name *'
-                            margin='normal'
-
-                            error={touched.Name && errors.Name}
-                            helperText={touched.firstName && errors.firstName}
+                            name='name'
+                            error={touched.name && errors.name}
                         />
                     </Col>
 
@@ -164,10 +136,7 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
                         <label> Email</label>
                         <ProfileInput
                             name='email'
-                            // label='First Name *'
-
                             error={touched.email && errors.email}
-                            helperText={touched.email && errors.email}
                         />
                     </Col>
 
@@ -175,62 +144,27 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
                         <label> Phone</label>
                         <ProfileInput
                             name='phone'
-                            // label='First Name *'
-
                             error={touched.phone && errors.phone}
-                            helperText={touched.phone && errors.phone}
                         />
                     </Col>
                     <Row justify="start">
                         <PrimaryButton
                           onClick={handleSubmit()}
-                            variant='contained'
-                            color='primary'
+                          variant='contained'
+                          color='primary'
                         >
                             Next
                         </PrimaryButton>
                     </Row>
                 </Row>
-
-              {/*<Field*/}
-              {/*  name='Name'*/}
-              {/*  // label='First Name *'*/}
-              {/*  margin='normal'*/}
-
-              {/*  error={touched.Name && errors.Name}*/}
-              {/*  helperText={touched.firstName && errors.firstName}*/}
-              {/*/>*/}
-              {/*<label>Email</label>*/}
-              {/*<Field*/}
-              {/*  type='email'*/}
-              {/*  name='email'*/}
-              {/* // label='Email *'*/}
-              {/*  margin='normal'*/}
-
-              {/*  error={touched.email && errors.email}*/}
-              {/*  helperText={touched.email && errors.email}*/}
-              {/*/>*/}
-              {/*<label>phone</label>*/}
-              {/*<Field*/}
-              {/*  name='Phone_No'*/}
-              {/*  //label='Phone_No *'*/}
-              {/*  margin='normal'*/}
-
-              {/*  error={touched.lastName && errors.lastName}*/}
-              {/*  helperText={touched.lastName && errors.lastName}*/}
-              {/*/>*/}
-
             </Form>
           )}
            </Formik>
-           {/* </Modal> */}
-       
-       
       </>
     );
 };
 
-const FormAddressDetails = ({formData, setFormData, nextStep, prevStep,endShowModal}) => {
+const FormAddressDetails = ({formData, setFormData, nextStep, prevStep}) => {
     const [direction, setDirection] = useState('Previous');
     const [visible, setVisible] = useState(true);
    
@@ -249,7 +183,6 @@ const FormAddressDetails = ({formData, setFormData, nextStep, prevStep,endShowMo
             console.log("submit in FormAddressDetails ");
              direction === 'Previous' ? prevStep() : nextStep();
             //  resetForm({values:''})
-            // direction === 'Previous' ? prevStep() : resetForm({values:''});
           }}
         >
           <Form >
@@ -291,14 +224,6 @@ const FormAddressDetails = ({formData, setFormData, nextStep, prevStep,endShowMo
 };
 const Confirm = ({ formData }) => {
     const { Name, email, Phone_No, long, lat, address } = formData;
-    // const [visible, setVisible] = useState(true);
-    
-    const handleOk = e => {
-      console.log(e);
-      // message.success('Processing complete!');
-      // setVisible(false);
-      Modal.destroy()
-     };
     return (
       <>
        
@@ -310,24 +235,6 @@ const Confirm = ({ formData }) => {
             console.log('Name ==> ',address)
         }
         {/* {handleOk()} */}
-     
-          {/* <div >
-            <button
-              color='secondary'
-              variant='contained'
-              onClick={() => prevStep()}
-            >
-              Back
-            </button>
-  
-            <button
-              color='primary'
-              variant='contained'
-              onClick={() => nextStep()}
-            >
-              Confirm and Continue
-            </button>
-          </div> */}
         </div>
       </>
     );

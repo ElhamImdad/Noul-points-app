@@ -41,7 +41,7 @@ const AddPoint = () => {
             //onOk={handleOk}
             onCancel={handleCancel}
             >
-            <AddPointForm onShowModal={endShowModal}/>
+            <AddPointForm/>
             </Modal>
         </>
     );
