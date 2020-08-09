@@ -8,7 +8,10 @@ const AddPoint = () => {
     const showModal = () => {
         setVisible(true);
     };
-    const handleOk = e => {
+    const endShowModal = () => {
+        setVisible(false);
+    };
+    const onCreate = e => {
         console.log('Received values of form: ',e);
         message.success('Processing complete!');
         setVisible(false);
@@ -23,12 +26,14 @@ const AddPoint = () => {
             <Button type="primary" onClick={showModal}>
             Add point +
             </Button>
+            
             {/* <AddPointForm
                 visible={visible}
-                onCreate={handleOk}
+                onCreate={onCreate}
                 onCancel={() => {
                   setVisible(false);
                 }}
+                endShowModal={endShowModal}   
             /> */}
             <Modal
             visible={visible}
@@ -36,7 +41,7 @@ const AddPoint = () => {
             //onOk={handleOk}
             onCancel={handleCancel}
             >
-            <AddPointForm/>
+            <AddPointForm onShowModal={endShowModal}/>
             </Modal>
         </>
     );

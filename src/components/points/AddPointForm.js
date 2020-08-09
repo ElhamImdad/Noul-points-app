@@ -3,60 +3,61 @@ import {  Modal, Button, Steps, message } from 'antd';
 import { Formik, useField, Field,Form } from "formik";
 import * as Yup from 'yup';
 
-const AddPointForm = () => {
-    const [step, setStep] = useState(1);
-    
-    const [formData, setFormData] = useState({
-        Name: '',
-        email: '',
-        Phone_No: '',
-        Commercial_Register_Number: '',
-        Noul_Register_Number: '',
-        long: 0,
-        lat: 0,
-        address: '',
-        label1: '',
-    });
-    const nextStep = () => setStep(prev => prev + 1);
-    const prevStep = () => setStep(prev => prev - 1);
-    
-    switch (step) {
-        case 1:
-          return (
-            <FormUserDetails
-              formData={formData}
-              setFormData={setFormData}
-              nextStep={nextStep}
-              // visible={visible}
-              // onCreate={onCreate}
-              // onCancel={onCancel}
-            />
-          );
-        case 2:
-          return (
-            <FormAddressDetails
-              formData={formData}
-              setFormData={setFormData}
-              nextStep={nextStep}
-              prevStep={prevStep}
-              // visible={visible}
-              // onCreate={onCreate}
-              // onCancel={onCancel}
-            />
-          );
-        case 3:
-          return (
-            // <Confirm formData={formData} />
-            <Confirm formData={formData}>
-              {/* {
-                message.success('Processing complete!')
-              } */}
-            </Confirm>
-            
-          );
-        default:
-          return <></>;
-      }
+const AddPointForm = (endShowModal) => {
+  const [step, setStep] = useState(1);
+  
+  const [formData, setFormData] = useState({
+      Name: '',
+      email: '',
+      Phone_No: '',
+      Commercial_Register_Number: '',
+      Noul_Register_Number: '',
+      long: 0,
+      lat: 0,
+      address: '',
+      label1: '',
+  });
+  const nextStep = () => setStep(prev => prev + 1); 
+  const prevStep = () => setStep(prev => prev - 1);
+  
+  switch (step) {
+      case 1:
+        return (
+          <FormUserDetails
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            // visible={visible}
+            // onCreate={onCreate}
+            // onCancel={onCancel}
+          />
+        );
+      case 2:
+        return (
+          <FormAddressDetails
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+            // visible={visible}
+            // onCreate={onCreate}
+            // onCancel={onCancel}
+            endShowModal={endShowModal}
+          />
+        );
+      // case 3:
+      //   return (
+      //     // <Confirm formData={formData} />
+      //     <Confirm formData={formData}>
+      //       {/* {
+      //         message.success('Processing complete!')
+      //       } */}
+      //     </Confirm>
+          
+      //   );
+      default:
+        return <></>;
+    }
 };
 const validationSchema = Yup.object().shape({
     Name: Yup.string()
@@ -118,9 +119,7 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
                 <label> Name</label>
               <Field
                 name='Name'
-                // label='First Name *'
                 margin='normal'
-             
                 error={touched.Name && errors.Name}
                 helperText={touched.firstName && errors.firstName}
               />
@@ -128,18 +127,14 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
               <Field
                 type='email'
                 name='email'
-               // label='Email *'
                 margin='normal'
-             
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
               />
               <label>phone</label>
               <Field
                 name='Phone_No'
-                //label='Phone_No *'
                 margin='normal'
-             
                 error={touched.lastName && errors.lastName}
                 helperText={touched.lastName && errors.lastName}
               />
@@ -160,7 +155,7 @@ const FormUserDetails = ({ formData, setFormData, nextStep}) => {
     );
 };
 
-const FormAddressDetails = ({formData, setFormData, nextStep, prevStep}) => {
+const FormAddressDetails = ({formData, setFormData, nextStep, prevStep,endShowModal}) => {
     const [direction, setDirection] = useState('Previous');
     const [visible, setVisible] = useState(true);
    
@@ -176,6 +171,7 @@ const FormAddressDetails = ({formData, setFormData, nextStep, prevStep}) => {
           initialValues={formData}
           onSubmit={(values, {resetForm}) => {
             setFormData(values);
+            console.log("submit in FormAddressDetails ");
              direction === 'Previous' ? prevStep() : nextStep();
             //  resetForm({values:''})
             // direction === 'Previous' ? prevStep() : resetForm({values:''});
@@ -206,6 +202,7 @@ const FormAddressDetails = ({formData, setFormData, nextStep, prevStep}) => {
                 color='primary'
                 onClick={() => {
                     setDirection('done');
+                    
                     // handleOk();
                 }}
               >
