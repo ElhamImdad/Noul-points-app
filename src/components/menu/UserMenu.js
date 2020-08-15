@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Overview from '../overview/Overview';
 import {Layout,Dropdown,Avatar , Menu} from "antd";
-import AddPoint from '../points/AddPoint';
 import PointStats from '../points/PointStats';
 
 
@@ -71,8 +70,7 @@ const UserMenu = () => {
                     </div>
                     </Header>
                 </div>
-                <Overview/>
-                <AddPoint/>
+                {/* <Overview/> */}
                 <PointStats/>
             </Layout>
         </Layout>

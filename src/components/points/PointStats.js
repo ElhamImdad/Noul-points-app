@@ -2,13 +2,17 @@ import React from 'react';
 import trackingBlue from '../../assets/tracking-blue.svg';
 import trackingYello from '../../assets/tracking-yello.svg';
 import trackingGreen from '../../assets/order-success-icon.svg';
-import { Card, Col, Row, Button, Select, Tag } from 'antd';
-import { ArrowLeftOutlined, MoreOutlined } from '@ant-design/icons';
+import styled from "styled-components";
+import {useHistory, useParams} from "react-router-dom";
+import { Card, Col, Row, Button, Select, Tag, ConfigProvider, PageHeader } from 'antd';
+import { ArrowLeftOutlined, MoreOutlined ,EnvironmentOutlined, PhoneOutlined} from '@ant-design/icons';
 import PointReport from './PointReport';
 
 const { Option } = Select;
 
 const PointStats = () => {
+    let history = useHistory();
+
     return (
         <div className= "Overview-container container">
             <div style={{ marginBottom: 16 }}>
@@ -27,35 +31,34 @@ const PointStats = () => {
             </div>
             <Row gutter={[16, 16]}>
                 <Col xs={24}>
-                    <Card 
-                        style={{borderRadius: '7px'}}  bordered={false}>
-                        <ul className="flex-container space-between" >
-                            <li>
-                                <span>
-                                    <ul className="flex-container space-between">
-                                        <Button type="text" icon={<ArrowLeftOutlined/>} />
-                                        <strong>Place Name</strong>
+                            <StyeldPageHeader
+                                style={{borderRadius: '7px'}}
+                                className="site-page-header-responsive bg_light"
+                                onBack={() => history.goBack()}
+                                title={"point_id"}
+                                subTitle={
+                                    <span>
+                                        <ul className="flex-container space-between">
+                                            {/* <strong>Place Name</strong> */}
+                                    
+                                            <li className="icons-style mg-lr-5px">
+                                                <EnvironmentOutlined className="icons-style"/>Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St, Saudi Arabia.
+                                            </li>
+                                            <li className="mg-lr-5px">
+                                                <PhoneOutlined className="icons-style"/>+509405710
+                                            </li>
                                         
-                                        <li className="mg-lr-5px">
-                                            location
-                                        </li>
-                                        <li className="mg-lr-5px">
-                                            phon
-                                        </li>
-                                        <li>
-                                            link
-                                        </li>
-                                    </ul>
-                                </span>
-                            </li> 
-
-                            <li>
-                                {/* <Tag color="error">INACTIVE</Tag> */}
-                                <Tag color="success">ACTIVE</Tag>
-                                <Button type="text" icon={<MoreOutlined/>}/>
-                            </li>
-                        </ul>
-                    </Card>
+                                            {/* <h3 className="icons-style"><EnvironmentOutlined className="icons-style"/>Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St, Saudi Arabia.</h3> */}
+                                            {/* <h3 className="icons-style"><PhoneOutlined className="icons-style"/>+509405710</h3> */}
+                                        </ul>
+                                    </span>   
+                                }
+                                extra={[
+                                    // <Tag color="error">INACTIVE</Tag>,
+                                    <Tag color="success">ACTIVE</Tag>,
+                                    <Button type="text" icon={<MoreOutlined/>}/>,
+                                ]}
+                            />
                 </Col>
             </Row>      
             <div>
@@ -122,6 +125,20 @@ const handleChange = ({ value }) => {
     if (value === 'Year') {
         console.log(`Click on item ${value}`);
     }
-};
+}
+
+const StyeldPageHeader = styled(PageHeader)`
+  span.ant-descriptions-item-label.ant-descriptions-item-colon {
+    display: block;
+    background: white;
+    padding: 1em;
+    font-size: 16px;
+    margin-bottom: 0.8em;
+  }
+  span.ant-descriptions-item-content {
+    font-weight: 600;
+    font-size: 15px;
+  }
+`;
 
 export default PointStats;
