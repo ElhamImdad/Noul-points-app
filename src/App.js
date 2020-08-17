@@ -8,10 +8,11 @@ import './styles/layout.scss';
 import { BrowserRouter as Router,Switch, Route } from 'react-router-dom';
 import Login from "./components/login/Login";
 import UserMenu from './components/menu/UserMenu';
+import {useHistory} from "react-router-dom";
 
 
 function App() {
-
+    let history = useHistory();
     const requireAuth = () => {
         if(!sessionStorage.getItem('token')) {
             console.log("not in local storage");

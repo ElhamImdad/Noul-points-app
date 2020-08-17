@@ -12,6 +12,7 @@ const { Option } = Select;
 
 const PointStats = () => {
     let history = useHistory();
+    let { point_id } = useParams();
 
     return (
         <div className= "Overview-container container">
@@ -35,7 +36,7 @@ const PointStats = () => {
                                 style={{borderRadius: '7px'}}
                                 className="site-page-header-responsive bg_light"
                                 onBack={() => history.goBack()}
-                                title={"point_id"}
+                                title={point_id}
                                 subTitle={
                                     <span>
                                         <ul className="flex-container space-between">
