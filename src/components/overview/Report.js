@@ -7,6 +7,7 @@ import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { CSVLink, CSVDownload } from "react-csv";
+import axios from "../../axios";
 
 const Report = () => {
     const { Search } = Input;
@@ -14,6 +15,9 @@ const Report = () => {
     let [selectedRowKeys,setSelectedRowKeys] = useState([]);
     //let [loading,setLoading] = useState(false);
     let [dataSelected,setDataSelected] = useState([]);
+    const [pointsData, setPointsData] = useState({ data: [] });
+    let isLoading = false;
+    let isError = false;
 
     // const start = () => {
     //     setLoading(true);
@@ -24,12 +28,66 @@ const Report = () => {
     //         setLoading(false);
     //     }, 1000);
     // };
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+        },
+    };
+    
+    const getPointsReport = () => {
+        isError = false;
+    
+        axios
+          .get("/V1/point/orders", config)
+          .then((response) => {
+            setPointsData(response.data);
+            console.log("Report from Api",response.data)
+          })
+          .catch((error) => {
+            console.log("AXIOS ERROR in getPointStatics: ", error);
+            isError = true;
+          })
+          .finally(() => {
+            isLoading = false;
+          });
+    };
+    useEffect(() => {
+        getPointsReport();
+      }, []);
+
+    const pData = [];
+    for (let i = 0; i < 20; i++) {
+        pData.push({
+            key: i,
+            trackingId: 22,
+            customerName: `Elham ${i}`,
+            phone: 22,
+            paymentStatus: ['unpaid'],
+            cost: 22,
+            point: 22,
+        });
+    }
+    // if (pointsData.length !== 0){    
+    //     console.log("there is no data in Api");
+    //     pointsData.data.map(item => (
+    //         pData.push({
+    //             // key: i,
+    //             trackingId: item.tracking_id,
+    //             customerName: item.receiver.receiver_name,
+    //             phone: item.receiver.receiver_phone,
+    //             paymentStatus: [item.payment_status],
+    //             cost: item.cod_amount,
+    //             point: item.hold_by.name,
+    //         })
+    //     ));
+    // }
     
     let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         setSelectedRowKeys( selectedRowKeys );    
-        setDataSelected ( data.filter(
+        setDataSelected ( pData.filter(
             s1 => selectedRowKeys.some(
                 s2 => s1.key === s2)).map(
                     s => (property.reduce(
@@ -101,7 +159,7 @@ const Report = () => {
                     {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span> */}
                 </div>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+                <Table rowSelection={rowSelection} columns={columns} dataSource={pData} />
             </div>
         </div>
     );
@@ -114,7 +172,7 @@ const columns = [
     render: paymentStatus => (
         <>
           {paymentStatus.map(paymentStatus => {
-            let color = paymentStatus === 'Unpaid' ? 'warning' : 'success';
+            let color = paymentStatus === 'unpaid' ? 'warning' : 'success';
             return (
               <Tag color={color} key={paymentStatus}>
                 {paymentStatus}
@@ -127,18 +185,5 @@ const columns = [
     {title: 'Cost', dataIndex: 'cost',},
     {title: 'Point', dataIndex: 'point',},
 ];
-
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i,
-    trackingId: 22,
-    customerName: `Elham ${i}`,
-    phone: 22,
-    paymentStatus: ['Unpaid'],
-    cost: 22,
-    point: 22,
-  });
-}
 
 export default Report;
