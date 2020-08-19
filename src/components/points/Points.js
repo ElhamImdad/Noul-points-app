@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 // import "../style/layout.scss"
 // import {useTranslation} from "react-i18next";
 import { ConfigProvider, List, Modal, PageHeader,  Space} from "antd";
@@ -6,18 +6,68 @@ import styled from "styled-components";
 // import i18next from "i18next";
 import {observer} from "mobx-react-lite";
 import {PrimaryButton} from "../global-styled-components/Buttons";
-import PointList from "./PointsList";
+// import PointList from "./PointsList";
 import {PlusCircleOutlined } from "@ant-design/icons"
 // import {device} from "../../../styles/device";
 import PointCard from "./point/PointCard";
 import {StyledSearch} from "../global-styled-components/Inputs";
 // import PointFormLayout from "./forms/point-form-layout";
+import axios from "../../axios";
 
 const Points = observer(() => {
     // const { t } = useTranslation();
 
     let [collapsed, setCollapsed] = useState(false);
-    let data = PointList;
+    const [pointsData, setPointsData] = useState({ data: [] });
+    let isLoading = false;
+    let isError = false;
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+        },
+    };
+    const getPointsOrders = () => {
+        isError = false;
+    
+        axios
+          .get("/V1/point/users", config)
+          .then((response) => {
+            setPointsData(response.data);
+            console.log("Report from Api",response.data)
+          })
+          .catch((error) => {
+            console.log("AXIOS ERROR in getPointStatics: ", error);
+            isError = true;
+          })
+          .finally(() => {
+            isLoading = false;
+          });
+    };
+    useEffect(() => {
+        getPointsOrders();
+      }, []);
+
+    const PointList =[];
+    if (pointsData.length !== 0){    
+        console.log("there is no data in pointList");
+        pointsData.data.map(item => (
+            PointList.push({
+                key: '1',
+                name: item.name,
+                address: 'Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St , Saudi Arabia.',
+                address: `${item.district.name_en} - ${item.region.name_en}, ${item.city.name_en}`,
+                mobile: item.phone,
+                map_link: item.map_link,
+                on_hold: item.onhold_orders,
+                released: item.released_orders,
+                isActive: item.isActive,
+                id:"camel-1"
+            })
+        ));
+    }
+    // let data = PointList;
 
     const showAddForm = () => {
         setCollapsed(!collapsed);
@@ -80,7 +130,7 @@ const Points = observer(() => {
                             onChange: (page) => {},
                             pageSize: 12,
                         }}
-                        dataSource={data}
+                        dataSource={PointList}
                         renderItem={(item) => (
                             <PointCard item={item}/>
                         )}
