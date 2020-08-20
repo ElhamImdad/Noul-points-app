@@ -107,7 +107,7 @@ const Overview = () => {
                             </h3>
                             <div className="cd-content">
                                 <h3>{data.Active_Points}</h3>
-                                <h3>You have 50 active points</h3>
+                                <h3>You have {data.Active_Points} active points</h3>
                             </div>
                         </Card>
                     </Col>

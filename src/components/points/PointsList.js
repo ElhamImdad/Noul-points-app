@@ -20,36 +20,36 @@ const PointList =[];
     }
 
 const pointList = () => {
-    const [pointsData, setPointsData] = useState({ data: [] });
-let isLoading = false;
-let isError = false;
+  const [pointsData, setPointsData] = useState({ data: [] });
+  let isLoading = false;
+  let isError = false;
 
-const config = {
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        Accept: "application/json",
-    },
-};
-const getPointsOrders = () => {
-    isError = false;
+  const config = {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+      },
+  };
+  const getPointsOrders = () => {
+      isError = false;
 
-    axios
-      .get("/V1/point/orders", config)
-      .then((response) => {
-        setPointsData(response.data);
-        console.log("Report from Api",response.data)
-      })
-      .catch((error) => {
-        console.log("AXIOS ERROR in getPointStatics: ", error);
-        isError = true;
-      })
-      .finally(() => {
-        isLoading = false;
-      });
-};
-useEffect(() => {
-    getPointsOrders();
-  }, []);
+      axios
+        .get("/V1/point/orders", config)
+        .then((response) => {
+          setPointsData(response.data);
+          console.log("Report from Api",response.data)
+        })
+        .catch((error) => {
+          console.log("AXIOS ERROR in getPointStatics: ", error);
+          isError = true;
+        })
+        .finally(() => {
+          isLoading = false;
+        });
+  };
+  useEffect(() => {
+      getPointsOrders();
+    }, []);
 
 };
 

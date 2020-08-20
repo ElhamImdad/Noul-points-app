@@ -5,69 +5,78 @@ import '../../fonts/Tajawal-Regular.ttf';
 import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
+import dayjs from "dayjs";
+import { isEmpty } from "lodash";
 import { DownloadOutlined } from '@ant-design/icons';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 import axios from "../../axios";
 
 const Report = () => {
     const { Search } = Input;
 
     let [selectedRowKeys,setSelectedRowKeys] = useState([]);
-    //let [loading,setLoading] = useState(false);
+    let [loading,setLoading] = useState(false);
     let [dataSelected,setDataSelected] = useState([]);
-    const [pointsData, setPointsData] = useState({ data: [] });
-    let isLoading = false;
+    let [orders, setOrders] = useState([]);
+    const [searchParams, setSearchParams] = useState("");
+    let [dates, setDates] = useState([]);
     let isError = false;
-
-    // const start = () => {
-    //     setLoading(true);
-       
-    //     setTimeout(() => {
-    //         setDataSelected([]);
-    //         setSelectedRowKeys([]);
-    //         setLoading(false);
-    //     }, 1000);
-    // };
+    
+    const dateFormat = "YYYY-MM-DD";
+    let onDatesChange = (date, dateString) => {
+        if (!isEmpty(date)) {
+          let arr = [];
+          arr.push(new Date(dayjs(date[0]).format(dateFormat)));
+          arr.push(new Date(dayjs(date[1]).format(dateFormat)));
+          setDates(arr);
+          console.log("date selected ", arr);
+        } else setDates([]);
+      };
+      console.log("date in stat ==> ",dates);
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             Accept: "application/json",
         },
+        params: {
+            search: searchParams,
+            // dateFrom: '2020-07-08',
+            // dateTo: '2020-07-13'
+        }
     };
-    
-    const getPointsReport = () => {
-        isError = false;
-    
-        axios
-          .get("/V1/point/orders", config)
-          .then((response) => {
-            setPointsData(response.data);
-            console.log("Report from Api",response.data)
-          })
-          .catch((error) => {
-            console.log("AXIOS ERROR in getPointStatics: ", error);
-            isError = true;
-          })
-          .finally(() => {
-            isLoading = false;
-          });
+    const getPointsOrders = async () => {
+        setLoading(true);
+
+        axios.get("/V1/point/orders", config)
+            .then((response) => {
+                setOrders(response.data.data);
+                console.log("Report from Api", response.data)
+            })
+            .catch((error) => {
+                console.log("AXIOS ERROR in getPointStatics: ", error);
+                isError = true;
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
     useEffect(() => {
-        getPointsReport();
-      }, []);
+        getPointsOrders();
+    }, []);
 
-    const pData = [];
-    for (let i = 0; i < 20; i++) {
-        pData.push({
-            key: i,
-            trackingId: 22,
-            customerName: `Elham ${i}`,
-            phone: 22,
-            paymentStatus: ['unpaid'],
-            cost: 22,
-            point: 22,
-        });
-    }
+    // const pData = [];
+    // for (let i = 0; i < 20; i++) {
+    //     pData.push({
+    //         key: i,
+    //         trackingId: 22,
+    //         customerName: `Elham ${i}`,
+    //         phone: 22,
+    //         paymentStatus: ['unpaid'],
+    //         cost: 22,
+    //         point: 22,
+    //     });
+    // };
+ 
     // if (pointsData.length !== 0){    
     //     console.log("there is no data in Api");
     //     pointsData.data.map(item => (
@@ -84,19 +93,34 @@ const Report = () => {
     // }
     
     let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
+    // const onSelectChange = selectedRowKeys => {
+    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //     setSelectedRowKeys( selectedRowKeys );    
+    //     setDataSelected ( pData.filter(
+    //         s1 => selectedRowKeys.some(
+    //             s2 => s1.key === s2)).map(
+    //                 s => (property.reduce(
+    //                     (newS, data1) => {
+    //                         newS[data1] = s[data1];
+    //                         return newS;
+    //                     }, {})
+    //                 )
+    //             )
+    //     );
+    // };
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        setSelectedRowKeys( selectedRowKeys );    
-        setDataSelected ( pData.filter(
+        setSelectedRowKeys(selectedRowKeys);
+        setDataSelected(orders.filter(
             s1 => selectedRowKeys.some(
                 s2 => s1.key === s2)).map(
-                    s => (property.reduce(
-                        (newS, data1) => {
-                            newS[data1] = s[data1];
-                            return newS;
-                        }, {})
-                    )
-                )
+            s => (property.reduce(
+                    (newS, data1) => {
+                        newS[data1] = s[data1];
+                        return newS;
+                    }, {})
+            )
+            )
         );
     };
     console.log('the data in new array',dataSelected);
@@ -122,11 +146,22 @@ const Report = () => {
                             <li className="mg-lr-5px">
                                 <Search
                                     placeholder="Search by name or Tracking ID"
-                                    onSearch={value => console.log(value)}
+                                    onSearch={value => {
+                                        setSearchParams(value);
+                                        getPointsOrders()
+                                    }}
                                 />
                             </li>
                             <li className="mg-lr-5px">
-                                <DatePicker.RangePicker/>
+                                <DatePicker.RangePicker 
+                                // bordered={false}
+                                // size={"large"}
+                                onChange={value => {
+                                    setSearchParams(value);
+                                    getPointsOrders()
+                                }}
+                                format={dateFormat}
+                                />
                             </li>
                             <li className="mg-lr-5px">
                                 <Radio.Group>
@@ -151,39 +186,70 @@ const Report = () => {
             </div>
 
             <div style={{ marginBottom: 8 }}>
-                <div>
-                {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-                    Reload
-                </Button>
-                <span style={{ marginLeft: 8 }}>
-                    {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                </span> */}
-                </div>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={pData} />
+                <Table rowSelection={rowSelection} columns={columns} dataSource={orders} />
             </div>
         </div>
     );
 };
+// const columns = [
+//     {title: 'Tracking ID', dataIndex: 'trackingId',},
+//     {title: 'Customer name', dataIndex: 'customerName',},
+//     {title: 'Phone', dataIndex: 'phone',},
+//     {title: 'Payment Status', dataIndex: 'paymentStatus',
+//     render: paymentStatus => (
+//         <>
+//           {paymentStatus.map(paymentStatus => {
+//             let color = paymentStatus === 'unpaid' ? 'warning' : 'success';
+//             return (
+//               <Tag color={color} key={paymentStatus}>
+//                 {paymentStatus}
+//               </Tag>
+//             );
+//           })}
+//         </>
+//       ),
+//     },
+//     {title: 'Cost', dataIndex: 'cost',},
+//     {title: 'Point', dataIndex: 'point',},
+// ];
+
 const columns = [
-    {title: 'Tracking ID', dataIndex: 'trackingId',},
-    {title: 'Customer name', dataIndex: 'customerName',},
-    {title: 'Phone', dataIndex: 'phone',},
-    {title: 'Payment Status', dataIndex: 'paymentStatus',
-    render: paymentStatus => (
-        <>
-          {paymentStatus.map(paymentStatus => {
-            let color = paymentStatus === 'unpaid' ? 'warning' : 'success';
-            return (
-              <Tag color={color} key={paymentStatus}>
-                {paymentStatus}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+    {title: 'Tracking ID', dataIndex: 'tracking_id',},
+    {
+        title: 'Customer name', dataIndex: 'receiver', render: reciver => {
+            return <span>{reciver.name}</span>
+        }
     },
-    {title: 'Cost', dataIndex: 'cost',},
-    {title: 'Point', dataIndex: 'point',},
+
+    {
+        title: 'Phone', dataIndex: 'receiver', render: reciver => {
+            return <span dir="ltr">+966 {reciver.phone}</span>
+        }
+    },
+    {
+        title: 'Payment Status', dataIndex: 'payment_status',
+        render: payment_status => {
+            return (
+                <span>
+          {payment_status === "unpaid" ? (
+              <Tag color="orange">
+                  {payment_status}
+              </Tag>
+          ) : (
+              <Tag color="green">
+                  {payment_status}
+              </Tag>
+          )}
+        </span>
+            );
+        }
+    },
+    {title: 'Cost', dataIndex: 'cod_amount'},
+    {
+        title: 'Point', dataIndex: 'hold_by', render: point => {
+            return <span>{point.name}</span>
+        }
+    },
 ];
 
 export default Report;

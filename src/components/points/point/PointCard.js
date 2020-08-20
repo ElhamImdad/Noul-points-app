@@ -17,7 +17,7 @@ const PointCard =({item}) => {
     return (
         <StyledCard>
             <List.Item
-                key={item.id}
+                key={item.name}
                 onClick={() => {
                     history.push(`${location.pathname}/${item.id}`);
                 }}
@@ -59,9 +59,11 @@ const PointCard =({item}) => {
                             </Row>
                         </Col>
                         <Col md={4}>
-                            <Tag color="volcano" key={true}>
-                                Inactive
-                            </Tag>
+                            {
+                                item.isActive === 0? 
+                                <Tag color="volcano" key={true}>Inactive</Tag>:
+                                <Tag color="success" key={true}>Active</Tag>
+                            }
                         </Col>
                     </Row>
                 </Skeleton>

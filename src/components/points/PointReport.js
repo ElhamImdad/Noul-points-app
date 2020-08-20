@@ -1,33 +1,88 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { CSVLink } from "react-csv";
+import axios from "../../axios";
+import dayjs from "dayjs";
+import { isEmpty } from "lodash";
 
-const PointReport = () => {
+const PointReport = (point_id) => {
     const { Search } = Input;
+    const {id} = point_id;
 
     let [selectedRowKeys,setSelectedRowKeys] = useState([]);
     let [dataSelected,setDataSelected] = useState([]);
+    let [loading,setLoading] = useState(false);
+    let [orders, setOrders] = useState([]);
+    const [searchParams, setSearchParams] = useState("");
+    let [dates, setDates] = useState([]);
+    let isError = false;
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+        },
+        // params: {
+        //      search: searchParams
+        // }
+    };
+    const getPointsOrders = async () => {
+        setLoading(true);
+
+        axios.get(`/V1/point/users/${id}/orders`, config)
+            .then((response) => {
+                setOrders(response.data.data);
+                console.log("response 1 point report", response.data);
+                console.log("id in response point==> ", id);
+            })
+            .catch((error) => {
+                console.log("AXIOS ERROR in get report 1 point: ", error);
+                isError = true;
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+    useEffect(() => {
+        getPointsOrders();
+        console.log("id in props==> ", id)
+    }, []);
 
     let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        setSelectedRowKeys( selectedRowKeys );    
-        setDataSelected ( data.filter(
+        setSelectedRowKeys(selectedRowKeys);
+        setDataSelected(orders.filter(
             s1 => selectedRowKeys.some(
                 s2 => s1.key === s2)).map(
-                    s => (property.reduce(
-                        (newS, data1) => {
-                            newS[data1] = s[data1];
-                            return newS;
-                        }, {})
-                    )
-                )
+            s => (property.reduce(
+                    (newS, data1) => {
+                        newS[data1] = s[data1];
+                        return newS;
+                    }, {})
+            )
+            )
         );
     };
-    console.log('the data in new array',dataSelected);
+    // const onSelectChange = selectedRowKeys => {
+    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+    //     setSelectedRowKeys( selectedRowKeys );    
+    //     setDataSelected ( data.filter(
+    //         s1 => selectedRowKeys.some(
+    //             s2 => s1.key === s2)).map(
+    //                 s => (property.reduce(
+    //                     (newS, data1) => {
+    //                         newS[data1] = s[data1];
+    //                         return newS;
+    //                     }, {})
+    //                 )
+    //             )
+    //     );
+    // };
+    // console.log('the data in new array',dataSelected);
     const rowSelection = {
       selectedRowKeys,
       onChange: onSelectChange,
@@ -50,7 +105,10 @@ const PointReport = () => {
                             <li className="mg-lr-5px">
                                 <Search
                                     placeholder="Search by name or Tracking ID"
-                                    onSearch={value => console.log(value)}
+                                    onSearch={value => {
+                                        setSearchParams(value);
+                                        getPointsOrders()
+                                    }}
                                 />
                             </li>
                             <li className="mg-lr-5px">
@@ -79,44 +137,82 @@ const PointReport = () => {
             </div>
 
             <div style={{ marginBottom: 8 }}>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+                <Table rowSelection={rowSelection} columns={columns} dataSource={orders} />
             </div>
         </div>
     );
 };
 const columns = [
-    {title: 'Tracking ID', dataIndex: 'trackingId',},
-    {title: 'Customer name', dataIndex: 'customerName',},
-    {title: 'Phone', dataIndex: 'phone',},
-    {title: 'Payment Status', dataIndex: 'paymentStatus',
-    render: paymentStatus => (
-        <>
-          {paymentStatus.map(paymentStatus => {
-            let color = paymentStatus === 'Unpaid' ? 'warning' : 'success';
-            return (
-              <Tag color={color} key={paymentStatus}>
-                {paymentStatus}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+    {title: 'Tracking ID', dataIndex: 'tracking_id',},
+    {
+        title: 'Customer name', dataIndex: 'receiver', render: reciver => {
+            return <span>{reciver.name}</span>
+        }
     },
-    {title: 'Cost', dataIndex: 'cost',},
-    {title: 'Point', dataIndex: 'point',},
-];
 
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i,
-    trackingId: 22,
-    customerName: `Elham ${i}`,
-    phone: 22,
-    paymentStatus: ['Unpaid'],
-    cost: 22,
-    point: 22,
-  });
-}
+    {
+        title: 'Phone', dataIndex: 'receiver', render: reciver => {
+            return <span dir="ltr">+966 {reciver.phone}</span>
+        }
+    },
+    {
+        title: 'Payment Status', dataIndex: 'payment_status',
+        render: payment_status => {
+            return (
+                <span>
+          {payment_status === "unpaid" ? (
+              <Tag color="orange">
+                  {payment_status}
+              </Tag>
+          ) : (
+              <Tag color="green">
+                  {payment_status}
+              </Tag>
+          )}
+        </span>
+            );
+        }
+    },
+    {title: 'Cost', dataIndex: 'cod_amount'},
+    {
+        title: 'Point', dataIndex: 'hold_by', render: point => {
+            return <span>{point.name}</span>
+        }
+    },
+];
+// const columns = [
+//     {title: 'Tracking ID', dataIndex: 'trackingId',},
+//     {title: 'Customer name', dataIndex: 'customerName',},
+//     {title: 'Phone', dataIndex: 'phone',},
+//     {title: 'Payment Status', dataIndex: 'paymentStatus',
+//     render: paymentStatus => (
+//         <>
+//           {paymentStatus.map(paymentStatus => {
+//             let color = paymentStatus === 'Unpaid' ? 'warning' : 'success';
+//             return (
+//               <Tag color={color} key={paymentStatus}>
+//                 {paymentStatus}
+//               </Tag>
+//             );
+//           })}
+//         </>
+//       ),
+//     },
+//     {title: 'Cost', dataIndex: 'cost',},
+//     {title: 'Point', dataIndex: 'point',},
+// ];
+
+// const data = [];
+// for (let i = 0; i < 20; i++) {
+//   data.push({
+//     key: i,
+//     trackingId: 22,
+//     customerName: `Elham ${i}`,
+//     phone: 22,
+//     paymentStatus: ['Unpaid'],
+//     cost: 22,
+//     point: 22,
+//   });
+// }
 
 export default PointReport;

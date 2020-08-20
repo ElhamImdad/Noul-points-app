@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import trackingBlue from '../../assets/tracking-blue.svg';
 import trackingYello from '../../assets/tracking-yello.svg';
 import trackingGreen from '../../assets/order-success-icon.svg';
@@ -7,12 +7,62 @@ import {useHistory, useParams} from "react-router-dom";
 import { Card, Col, Row, Button, Select, Tag, ConfigProvider, PageHeader } from 'antd';
 import { ArrowLeftOutlined, MoreOutlined ,EnvironmentOutlined, PhoneOutlined} from '@ant-design/icons';
 import PointReport from './PointReport';
+import axios from "../../axios";
 
 const { Option } = Select;
 
 const PointStats = () => {
     let history = useHistory();
+    const [data, setData] = useState({});
+    const [pointInfo, setPointInfo] = useState({});
+    const [region, setRegion] = useState({});
+    const [city, setCity] = useState({});
+    const [district, setDistrict] = useState({});
     let { point_id } = useParams();
+    let isLoading = false;
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+        },
+    };
+    const getPointsStatics = () => {
+        axios
+          .get(`/V1/point/users/${point_id}/analysis`, config)
+          .then((response) => {
+            setData(response.data);
+            console.log("statistic 1 point from Api",response.data)
+          })
+          .catch((error) => {
+            console.log("AXIOS ERROR in getPointStatics: ", error);
+          })
+          .finally(() => {
+            isLoading = false;
+          });
+    };
+    const getPointsByID = () => {
+        axios
+          .get(`/V1/point/users/${point_id}`, config)
+          .then((response) => {
+            setPointInfo(response.data.data);
+            setDistrict(response.data.data.district);
+            setRegion(response.data.data.region);
+            setCity(response.data.data.city);
+            console.log(" 1 point from Api ==> ",response.data.data)
+          })
+          .catch((error) => {
+            console.log("AXIOS ERROR in getPointStatics: ", error);
+          })
+          .finally(() => {
+            isLoading = false;
+          });
+    };
+    useEffect(() => {
+        getPointsStatics();
+        getPointsByID();
+        console.log("id of point ==> ",point_id);
+      }, []);
 
     return (
         <div className= "Overview-container container">
@@ -36,17 +86,17 @@ const PointStats = () => {
                                 style={{borderRadius: '7px'}}
                                 className="site-page-header-responsive bg_light"
                                 onBack={() => history.goBack()}
-                                title={point_id}
+                                title={pointInfo.name}
                                 subTitle={
                                     <span>
                                         <ul className="flex-container space-between">
                                             {/* <strong>Place Name</strong> */}
                                     
                                             <li className="icons-style mg-lr-5px">
-                                                <EnvironmentOutlined className="icons-style"/>Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St, Saudi Arabia.
+                                                <EnvironmentOutlined className="icons-style"/>{district.name_en} - {region.name_en}, {city.name_en}.
                                             </li>
                                             <li className="mg-lr-5px">
-                                                <PhoneOutlined className="icons-style"/>+509405710
+                                                <PhoneOutlined className="icons-style"/>{pointInfo.phone}
                                             </li>
                                         
                                             {/* <h3 className="icons-style"><EnvironmentOutlined className="icons-style"/>Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St, Saudi Arabia.</h3> */}
@@ -55,8 +105,9 @@ const PointStats = () => {
                                     </span>   
                                 }
                                 extra={[
-                                    // <Tag color="error">INACTIVE</Tag>,
-                                    <Tag color="success">ACTIVE</Tag>,
+                                    pointInfo.isActive === 0? 
+                                    <Tag color="volcano" key={true}>Inactive</Tag>:
+                                    <Tag color="success" key={true}>Active</Tag>,
                                     <Button type="text" icon={<MoreOutlined/>}/>,
                                 ]}
                             />
@@ -74,8 +125,8 @@ const PointStats = () => {
                             </h3>
                             <div className="cd-content">
                             {/* <Statistic className="mg-10px" style={{fontSize: '5px'}} value={112893} /> */}
-                                <h3>50</h3>
-                                <h3>Your total Orders Number is 50</h3>
+                                <h3>{data.Total_Orders}</h3>
+                                <h3>Your total Orders Number is {data.Total_Orders}</h3>
                             </div>
                         </Card>
                     </Col>
@@ -89,8 +140,8 @@ const PointStats = () => {
                                     <strong className="warning">On hold</strong>
                                 </h3>
                                 <div className="cd-content">
-                                    <h3>50</h3>
-                                    <h3>You have 50 order On hold by points</h3> 
+                                    <h3>{data.onHold_Ordrs}</h3>
+                                    <h3>You have {data.onHold_Ordrs} order On hold by points</h3> 
                                 </div>
                         </Card>
                     </Col>
@@ -104,14 +155,14 @@ const PointStats = () => {
                                 <strong className="success">Released</strong>
                             </h3>
                             <div className="cd-content">
-                                <h3>50</h3>
-                                <h3>You have released 50 order from your points</h3>
+                                <h3>{data.Released_Orders}</h3>
+                                <h3>You have released {data.Released_Orders} order from your points</h3>
                             </div>
                         </Card>
                     </Col>
                 </Row>
             </div>
-            <PointReport/>
+            <PointReport id={point_id}/>
         </div>
     );
 };

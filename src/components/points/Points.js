@@ -19,20 +19,23 @@ const Points = observer(() => {
 
     let [collapsed, setCollapsed] = useState(false);
     const [pointsData, setPointsData] = useState({ data: [] });
+    const [searchParams,setSearchParams] = useState("");
     let isLoading = false;
     let isError = false;
-
+    
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             Accept: "application/json",
         },
+        params:{
+            search:searchParams
+        }
     };
-    const getPointsOrders = () => {
+    const getPointsOrders = async () => {
         isError = false;
-    
         axios
-          .get("/V1/point/users", config)
+          .get("/V1/point/users",config)
           .then((response) => {
             setPointsData(response.data);
             console.log("Report from Api",response.data)
@@ -54,16 +57,15 @@ const Points = observer(() => {
         console.log("there is no data in pointList");
         pointsData.data.map(item => (
             PointList.push({
-                key: '1',
+                // key: '1',
                 name: item.name,
-                address: 'Riyadh - Prince Turki Ibn Abdulaziz Al Awwal St , Saudi Arabia.',
-                address: `${item.district.name_en} - ${item.region.name_en}, ${item.city.name_en}`,
+                address: `${item.district.name_en} - ${item.region.name_en}, ${item.city.name_en}.`,
                 mobile: item.phone,
                 map_link: item.map_link,
                 on_hold: item.onhold_orders,
                 released: item.released_orders,
                 isActive: item.isActive,
-                id:"camel-1"
+                id: item.id
             })
         ));
     }
@@ -96,7 +98,10 @@ const Points = observer(() => {
                         <Space>
                             <StyledSearch
                                 placeholder="Search by name or Tracking ID"
-                                onSearch={value => console.log(value)}
+                                onSearch={async (value) => {
+                                    setSearchParams(value);
+                                    getPointsOrders()
+                                }}
                                 height="available"
                             />,
                             <PrimaryButton className="excel-button" onClick={showAddForm}>
