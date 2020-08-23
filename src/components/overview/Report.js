@@ -33,19 +33,20 @@ const Report = () => {
         } else setDates([]);
       };
       console.log("date in stat ==> ",dates);
-    const config = {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Accept: "application/json",
-        },
-        params: {
-            search: searchParams,
-            // dateFrom: '2020-07-08',
-            // dateTo: '2020-07-13'
-        }
-    };
-    const getPointsOrders = async () => {
+ 
+    const getPointsOrders = async (value) => {
         setLoading(true);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+            },
+            params: {
+                search: value,
+                // dateFrom: '2020-07-08',
+                // dateTo: '2020-07-13'
+            }
+        };
 
         axios.get("/V1/point/orders", config)
             .then((response) => {
@@ -76,7 +77,7 @@ const Report = () => {
     //         point: 22,
     //     });
     // };
- 
+
     // if (pointsData.length !== 0){    
     //     console.log("there is no data in Api");
     //     pointsData.data.map(item => (
@@ -123,7 +124,7 @@ const Report = () => {
             )
         );
     };
-    console.log('the data in new array',dataSelected);
+    // console.log('the data in new array',dataSelected);
     const rowSelection = {
       selectedRowKeys,
       onChange: onSelectChange,
@@ -147,8 +148,8 @@ const Report = () => {
                                 <Search
                                     placeholder="Search by name or Tracking ID"
                                     onSearch={value => {
-                                        setSearchParams(value);
-                                        getPointsOrders()
+                                        // setSearchParams(value);
+                                        getPointsOrders(value)
                                     }}
                                 />
                             </li>

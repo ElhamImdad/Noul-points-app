@@ -20,17 +20,17 @@ const PointReport = (point_id) => {
     let [dates, setDates] = useState([]);
     let isError = false;
 
-    const config = {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Accept: "application/json",
-        },
-        // params: {
-        //      search: searchParams
-        // }
-    };
-    const getPointsOrders = async () => {
+    const getPointsOrders = async (value) => {
         setLoading(true);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+            },
+            params: {
+                 search: value
+            }
+        };
 
         axios.get(`/V1/point/users/${id}/orders`, config)
             .then((response) => {
@@ -106,8 +106,8 @@ const PointReport = (point_id) => {
                                 <Search
                                     placeholder="Search by name or Tracking ID"
                                     onSearch={value => {
-                                        setSearchParams(value);
-                                        getPointsOrders()
+                                        // setSearchParams(value);
+                                        getPointsOrders(value);
                                     }}
                                 />
                             </li>

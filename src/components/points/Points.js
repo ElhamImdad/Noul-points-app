@@ -23,17 +23,17 @@ const Points = observer(() => {
     let isLoading = false;
     let isError = false;
     
-    const config = {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Accept: "application/json",
-        },
-        params:{
-            search:searchParams
-        }
-    };
-    const getPointsOrders = async () => {
+    const getPointsOrders = async (value) => {
         isError = false;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+            },
+            params:{
+                search:value
+            }
+        };
         axios
           .get("/V1/point/users",config)
           .then((response) => {
@@ -99,8 +99,8 @@ const Points = observer(() => {
                             <StyledSearch
                                 placeholder="Search by name or Tracking ID"
                                 onSearch={async (value) => {
-                                    setSearchParams(value);
-                                    getPointsOrders()
+                                    // setSearchParams(value);
+                                    getPointsOrders(value)
                                 }}
                                 height="available"
                             />,
