@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import '../../styles/overview.scss';
 import '../../styles/my-theme.css';
 import '../../fonts/Tajawal-Regular.ttf';
+import { RangePickerPrimary } from "../global-styled-components/Inputs";
 import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
@@ -21,21 +22,21 @@ const Report = () => {
     const [searchParams, setSearchParams] = useState("");
     let [dates, setDates] = useState([]);
     let isError = false;
-    
+
     const dateFormat = "YYYY-MM-DD";
-    let onDatesChange = (date, dateString) => {
+    let arr = [];
+    let onDatesChange = (date) => {
         if (!isEmpty(date)) {
-          let arr = [];
-          arr.push(new Date(dayjs(date[0]).format(dateFormat)));
-          arr.push(new Date(dayjs(date[1]).format(dateFormat)));
+          arr.push((dayjs(date[0]).format(dateFormat)));
+          arr.push((dayjs(date[1]).format(dateFormat)));
           setDates(arr);
-          console.log("date selected ", arr);
+        //   console.log("date selected---> ", arr);
         } else setDates([]);
       };
-      console.log("date in stat ==> ",dates);
  
-    const getPointsOrders = async (value) => {
+    const getPointsOrders = async (value,col) => {
         setLoading(true);
+        console.log(col," clicked")
         const config = {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -43,8 +44,9 @@ const Report = () => {
             },
             params: {
                 search: value,
-                // dateFrom: '2020-07-08',
-                // dateTo: '2020-07-13'
+                dateFrom: arr[0],
+                dateTo: arr[1],
+                // column: col
             }
         };
 
@@ -94,21 +96,6 @@ const Report = () => {
     // }
     
     let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
-    // const onSelectChange = selectedRowKeys => {
-    //     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    //     setSelectedRowKeys( selectedRowKeys );    
-    //     setDataSelected ( pData.filter(
-    //         s1 => selectedRowKeys.some(
-    //             s2 => s1.key === s2)).map(
-    //                 s => (property.reduce(
-    //                     (newS, data1) => {
-    //                         newS[data1] = s[data1];
-    //                         return newS;
-    //                     }, {})
-    //                 )
-    //             )
-    //     );
-    // };
     const onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         setSelectedRowKeys(selectedRowKeys);
@@ -149,26 +136,27 @@ const Report = () => {
                                     placeholder="Search by name or Tracking ID"
                                     onSearch={value => {
                                         // setSearchParams(value);
-                                        getPointsOrders(value)
+                                        getPointsOrders(value,"")
                                     }}
                                 />
                             </li>
                             <li className="mg-lr-5px">
-                                <DatePicker.RangePicker 
+                                {/* <DatePicker.RangePicker  */}
+                                <RangePickerPrimary
                                 // bordered={false}
                                 // size={"large"}
-                                onChange={value => {
-                                    setSearchParams(value);
-                                    getPointsOrders()
-                                }}
-                                format={dateFormat}
+                                    onChange={value => {
+                                        onDatesChange(value);
+                                        getPointsOrders()
+                                    }}
+                                    format={dateFormat}
                                 />
                             </li>
                             <li className="mg-lr-5px">
                                 <Radio.Group>
                                     <Radio.Button value="All">All</Radio.Button>
                                     <Radio.Button value="Collected">Collected</Radio.Button>
-                                    <Radio.Button value="Released">Released</Radio.Button>
+                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","Released")}}>Released</Radio.Button>
                                 </Radio.Group>
                             </li>
                             <li>

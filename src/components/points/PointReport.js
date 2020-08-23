@@ -3,6 +3,7 @@ import { Input, DatePicker } from 'antd';
 import { Button, Radio  } from 'antd';
 import { Table, Tag } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import { RangePickerPrimary } from "../global-styled-components/Inputs";
 import { CSVLink } from "react-csv";
 import axios from "../../axios";
 import dayjs from "dayjs";
@@ -20,7 +21,18 @@ const PointReport = (point_id) => {
     let [dates, setDates] = useState([]);
     let isError = false;
 
-    const getPointsOrders = async (value) => {
+    const dateFormat = "YYYY-MM-DD";
+    let arr = [];
+    let onDatesChange = (date) => {
+        if (!isEmpty(date)) {
+          arr.push((dayjs(date[0]).format(dateFormat)));
+          arr.push((dayjs(date[1]).format(dateFormat)));
+          setDates(arr);
+        //   console.log("date selected---> ", arr);
+        } else setDates([]);
+    };
+
+    const getPointsOrders = async (value,col) => {
         setLoading(true);
         const config = {
             headers: {
@@ -28,7 +40,10 @@ const PointReport = (point_id) => {
                 Accept: "application/json",
             },
             params: {
-                 search: value
+                search: value,
+                dateFrom: arr[0],
+                dateTo: arr[1],
+                // column: col
             }
         };
 
@@ -107,18 +122,24 @@ const PointReport = (point_id) => {
                                     placeholder="Search by name or Tracking ID"
                                     onSearch={value => {
                                         // setSearchParams(value);
-                                        getPointsOrders(value);
+                                        getPointsOrders(value,"");
                                     }}
                                 />
                             </li>
                             <li className="mg-lr-5px">
-                                <DatePicker.RangePicker/>
+                                <RangePickerPrimary
+                                    onChange={value => {
+                                        onDatesChange(value);
+                                        getPointsOrders();
+                                    }}
+                                    format={dateFormat}
+                                />
                             </li>
                             <li className="mg-lr-5px">
                                 <Radio.Group>
                                     <Radio.Button value="All">All</Radio.Button>
                                     <Radio.Button value="Collected">Collected</Radio.Button>
-                                    <Radio.Button value="Released">Released</Radio.Button>
+                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","Released")}}>Released</Radio.Button>
                                 </Radio.Group>
                             </li>
                             <li>
