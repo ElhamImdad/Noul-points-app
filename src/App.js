@@ -9,6 +9,7 @@ import { BrowserRouter as Router,Switch, Route } from 'react-router-dom';
 import Login from "./components/login/Login";
 import UserMenu from './components/menu/UserMenu';
 import {useHistory} from "react-router-dom";
+import userPointHome from './components/user-point/point-home';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Router>
             <div>
                 <Switch>
+                    {/* <Route exact path="/" component={userPointHome}/> */}
                     <Route exact path="/" component={Login}/>
                     <Route path="/home" component={UserMenu}/>
                 </Switch>

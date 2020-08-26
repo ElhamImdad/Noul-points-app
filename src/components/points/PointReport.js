@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Input, DatePicker } from 'antd';
-import { Button, Radio  } from 'antd';
-import { Table, Tag } from 'antd';
+import { Button, Radio, Table, Tag, Input, DatePicker} from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { RangePickerPrimary } from "../global-styled-components/Inputs";
 import { CSVLink } from "react-csv";
@@ -43,7 +41,7 @@ const PointReport = (point_id) => {
                 search: value,
                 dateFrom: arr[0],
                 dateTo: arr[1],
-                // column: col
+                status: col
             }
         };
 
@@ -137,9 +135,9 @@ const PointReport = (point_id) => {
                             </li>
                             <li className="mg-lr-5px">
                                 <Radio.Group>
-                                    <Radio.Button value="All">All</Radio.Button>
-                                    <Radio.Button value="Collected">Collected</Radio.Button>
-                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","Released")}}>Released</Radio.Button>
+                                <Radio.Button value="All" onClick={() => {getPointsOrders("","all")}}>All</Radio.Button>
+                                    <Radio.Button value="Collected" onClick={() => {getPointsOrders("","collected")}}>Collected</Radio.Button>
+                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","released")}}>Released</Radio.Button>
                                 </Radio.Group>
                             </li>
                             <li>

@@ -3,9 +3,7 @@ import '../../styles/overview.scss';
 import '../../styles/my-theme.css';
 import '../../fonts/Tajawal-Regular.ttf';
 import { RangePickerPrimary } from "../global-styled-components/Inputs";
-import { Input, DatePicker } from 'antd';
-import { Button, Radio  } from 'antd';
-import { Table, Tag } from 'antd';
+import { Button, Radio, Input, DatePicker, Table, Tag} from 'antd';
 import dayjs from "dayjs";
 import { isEmpty } from "lodash";
 import { DownloadOutlined } from '@ant-design/icons';
@@ -14,6 +12,9 @@ import axios from "../../axios";
 
 const Report = () => {
     const { Search } = Input;
+    const Receiver = {name:"", phone:""};
+    const Hold_by = {name:""};
+    const initialTable = { tracking_id: "", receiver: Receiver, payment_status: "", cod_amount: "", hold_by:Hold_by };
 
     let [selectedRowKeys,setSelectedRowKeys] = useState([]);
     let [loading,setLoading] = useState(false);
@@ -22,6 +23,43 @@ const Report = () => {
     const [searchParams, setSearchParams] = useState("");
     let [dates, setDates] = useState([]);
     let isError = false;
+
+    let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
+    const onSelectChange = (selectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        setSelectedRowKeys(selectedRowKeys);
+        // setDataSelected(orders.filter(
+        //     s1 => selectedRowKeys.some(
+        //         s2 => s1.tracking_id === s2)).map(
+        //     s => (property.reduce(
+        //             (newS, data1) => {
+        //                 newS[data1] = s[data1];
+        //                 return newS;
+        //             }, {})
+        //     )
+        //     )
+        // );
+        // const found = orders.filter((item) => {
+        //     return console.log("item == ",item.tracking_id);
+        //     // selectedRowKeys.includes(item.tracking_id);
+        //   });
+        // setDataSelected(found);
+    };
+    const selectRow = (record) => {
+        const selectedRowKeys = [...selectedRowKeys];
+        if (selectedRowKeys.indexOf(record.tracking_id) >= 0) {
+          selectedRowKeys.splice(selectedRowKeys.indexOf(record.tracking_id), 1);
+        } else {
+          selectedRowKeys.push(record.tracking_id);
+        }
+        setSelectedRowKeys(selectedRowKeys);
+    };
+    // console.log('the data in new array',dataSelected);
+    const hasSelected = selectedRowKeys.length > 0;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
 
     const dateFormat = "YYYY-MM-DD";
     let arr = [];
@@ -46,7 +84,7 @@ const Report = () => {
                 search: value,
                 dateFrom: arr[0],
                 dateTo: arr[1],
-                // column: col
+                status: col
             }
         };
 
@@ -94,30 +132,6 @@ const Report = () => {
     //         })
     //     ));
     // }
-    
-    let property = ['trackingId', 'customerName','phone', 'paymentStatus', 'cost','point']
-    const onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        setSelectedRowKeys(selectedRowKeys);
-        setDataSelected(orders.filter(
-            s1 => selectedRowKeys.some(
-                s2 => s1.key === s2)).map(
-            s => (property.reduce(
-                    (newS, data1) => {
-                        newS[data1] = s[data1];
-                        return newS;
-                    }, {})
-            )
-            )
-        );
-    };
-    // console.log('the data in new array',dataSelected);
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
-    
     return (
         <div>
             <div className="">
@@ -154,9 +168,9 @@ const Report = () => {
                             </li>
                             <li className="mg-lr-5px">
                                 <Radio.Group>
-                                    <Radio.Button value="All">All</Radio.Button>
-                                    <Radio.Button value="Collected">Collected</Radio.Button>
-                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","Released")}}>Released</Radio.Button>
+                                    <Radio.Button value="All" onClick={() => {getPointsOrders("","all")}}>All</Radio.Button>
+                                    <Radio.Button value="Collected"onClick={() => {getPointsOrders("","collected")}}>Collected</Radio.Button>
+                                    <Radio.Button value="Released" onClick={() => {getPointsOrders("","released")}}>Released</Radio.Button>
                                 </Radio.Group>
                             </li>
                             <li>
@@ -175,7 +189,20 @@ const Report = () => {
             </div>
 
             <div style={{ marginBottom: 8 }}>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={orders} />
+                <Table 
+                // loading={loading} 
+                rowSelection={rowSelection} 
+                columns={columns} 
+                dataSource={orders} 
+                // pagination={true}
+                onRow={(record) => ({
+                    onClick: () => {
+                      selectRow(record);
+                      console.log("record");
+                      console.log(record);
+                    }
+                  })}
+                />
             </div>
         </div>
     );
@@ -203,7 +230,8 @@ const Report = () => {
 // ];
 
 const columns = [
-    {title: 'Tracking ID', dataIndex: 'tracking_id',},
+    {title: 'Tracking ID', dataIndex: 'tracking_id', key:'tracking_id',
+    render: (key) => <a>{key}</a>,},
     {
         title: 'Customer name', dataIndex: 'receiver', render: reciver => {
             return <span>{reciver.name}</span>
@@ -216,26 +244,26 @@ const columns = [
         }
     },
     {
-        title: 'Payment Status', dataIndex: 'payment_status',
+        title: 'Payment Status', dataIndex: 'payment_status', key: 'payment_status',
         render: payment_status => {
             return (
                 <span>
-          {payment_status === "unpaid" ? (
-              <Tag color="orange">
-                  {payment_status}
-              </Tag>
-          ) : (
-              <Tag color="green">
-                  {payment_status}
-              </Tag>
-          )}
-        </span>
+                    {payment_status === "unpaid" ? (
+                        <Tag color="orange">
+                            {payment_status}
+                        </Tag>
+                    ) : (
+                        <Tag color="green">
+                            {payment_status}
+                        </Tag>
+                    )}
+                </span>
             );
         }
     },
-    {title: 'Cost', dataIndex: 'cod_amount'},
+    {title: 'Cost', dataIndex: 'cod_amount', key:'cod_amount'},
     {
-        title: 'Point', dataIndex: 'hold_by', render: point => {
+        title: 'Point', dataIndex: 'hold_by', key:'hold_by', render: point => {
             return <span>{point.name}</span>
         }
     },
