@@ -71,3 +71,46 @@
     }
   }
 }
+
+.webview-header{
+  background-color: $color_primary;
+  border-bottom-right-radius: 20%;
+  border-bottom-left-radius: 20%;
+  height: 5rem;
+  .ant-page-header-heading-title {
+    margin: 0 20px;
+    margin-bottom: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center !important;
+    display: flex;
+    justify-content: center;  
+  }
+  .ant-page-header-back-button {
+    color: $color_primary;
+    text-decoration: none;
+    outline: none;
+    transition: color 0.3s;
+    color: #fff;
+    cursor: pointer;
+  }
+  .ant-page-header-back {
+    margin-right: 0px;
+    font-size: 16px;
+    line-height: 1;
+}
+}
+.webview-footer{
+  background-color: #fff;
+  padding: 3px 20px;
+}
+.webview-container{
+  width:100%;
+  padding: 15px 15px 0 15px;
+  margin: auto;
+}

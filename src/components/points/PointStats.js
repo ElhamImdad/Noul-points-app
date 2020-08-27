@@ -25,11 +25,21 @@ const PointStats = () => {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             Accept: "application/json",
-        },
+        }
     };
-    const getPointsStatics = () => {
+
+    const getPointsStatics = (value) => {
+        const config2 = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Accept: "application/json",
+            },
+            params: {
+                display: value
+            }
+        };
         axios
-          .get(`/V1/point/users/${point_id}/analysis`, config)
+          .get(`/V1/point/users/${point_id}/analysis`, config2)
           .then((response) => {
             setData(response.data);
             console.log("statistic 1 point from Api",response.data)
@@ -60,9 +70,23 @@ const PointStats = () => {
     };
     useEffect(() => {
         getPointsStatics();
-        getPointsByID();
+        // getPointsByID();
         console.log("id of point ==> ",point_id);
-      }, []);
+    }, []);
+    const handleChange = ({ value }) => {
+        if (value === 'Today') {
+            console.log(`Click on item ${value}`);
+            getPointsStatics('today');
+        }
+        if (value === 'Month') {
+            console.log(`Click on item ${value}`);
+            getPointsStatics('month');
+        }
+        if (value === 'Year') {
+            console.log(`Click on item ${value}`);
+            getPointsStatics('year');
+        }
+    }
 
     return (
         <div className= "Overview-container container">
@@ -166,18 +190,6 @@ const PointStats = () => {
         </div>
     );
 };
-
-const handleChange = ({ value }) => {
-    if (value === 'Today') {
-        console.log(`Click on item ${value}`);
-    }
-    if (value === 'Month') {
-        console.log(`Click on item ${value}`);
-    }
-    if (value === 'Year') {
-        console.log(`Click on item ${value}`);
-    }
-}
 
 const StyeldPageHeader = styled(PageHeader)`
   span.ant-descriptions-item-label.ant-descriptions-item-colon {
