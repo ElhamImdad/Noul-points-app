@@ -67,10 +67,7 @@ const PointCard =({item}) => {
                         </Col>
                     </Row>
                 </Skeleton>
-
-
             </List.Item>
-
         </StyledCard>
 
     );

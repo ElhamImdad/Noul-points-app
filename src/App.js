@@ -9,7 +9,7 @@ import { BrowserRouter as Router,Switch, Route } from 'react-router-dom';
 import Login from "./components/login/Login";
 import UserMenu from './components/menu/UserMenu';
 import {useHistory} from "react-router-dom";
-import userPointIndex from './components/user-point/userPointIndex';
+import UserPoint from './components/user-point/User-point';
 
 
 function App() {
@@ -26,8 +26,8 @@ function App() {
         <Router>
             <div>
                 <Switch>
-                    {/* <Route exact path="/" component={userPointIndex}/> */}
-                    <Route exact path="/" component={Login}/>
+                    <Route exact path="/" component={UserPoint}/>
+                    {/* <Route exact path="/" component={Login}/> */}
                     <Route path="/home" component={UserMenu}/>
                 </Switch>
             </div>
