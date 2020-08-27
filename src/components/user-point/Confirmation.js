@@ -1,16 +1,35 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {useHistory, useParams,useLocation} from "react-router-dom";
-import {Card, Col, PageHeader, Row, Skeleton, Descriptions ,ConfigProvider} from "antd";
+import {Card, Col, PageHeader, Row, Skeleton, Descriptions ,ConfigProvider,Modal} from "antd";
+import ReactCodeInput from 'react-verification-code-input';
 import {SettingOutlined} from '@ant-design/icons';
 import {colors} from "../../styles/global";
 import {device} from "../../styles/device";
 import styled from "styled-components";
 
+const { confirm } = Modal;
+
 const Confirmation = (item) => {
     let history = useHistory();
     let location = useLocation();
     let { shipment_id } = useParams();
+    let [visible, setVisible] = useState(false);
     console.log("shipment id clicked--> ", shipment_id);
+
+    const showModal = () => {setVisible(true)};
+    const closeModal = () => {
+        setVisible(false);
+    };
+    function success() {
+        Modal.success({
+            // className: 'aln-center',
+            icon: <SettingOutlined className="color_primary"/>,
+            title: <h2>Released!</h2>,
+            content: <h3>The shipment has been delivered and released from your store</h3>,
+            okText: <h4>Well done!</h4>,
+            okType: 'ghost',
+        });
+    }
 
     return (
         <ConfigProvider 
@@ -27,10 +46,29 @@ const Confirmation = (item) => {
             actions={[ <h2>Confirm releasing</h2>, ]}
             key={item.name}
             onClick={() => {
-                history.push(`${location.pathname}/${item.id}`);
-                console.log("location path--",location.pathname)
+                // history.push(`${location.pathname}/${item.id}`);
+                showModal();
+                console.log("confimation--> ",location.pathname);
             }}
         >
+            <Modal className="aln-center"
+                visible={visible}
+                closable={false}
+                centered={true}
+                style={{backgroundColor:'transparent'}}
+                transparent={true}
+                footer={null}
+                >
+                    <span className="aln-center">
+                    <ReactCodeInput 
+                        fields={4} 
+                        onComplete={(value)=>{
+                            closeModal()
+                            console.log("done!!",value);
+                            success()}}/>
+                            
+                    </span>
+            </Modal>
             <Skeleton
                 avatar
                 title={false}
@@ -91,5 +129,19 @@ const StyledCard = styled(Card)`
         text-align: center;
     }
 `;
-
+const StyledModal = styled(Modal)`
+  padding: 8px;
+  width:-moz-available;
+  color: white;
+  h2{
+  color: ${colors.color_primary};
+  font-weight: 600;
+  }
+  h3 {
+    color: #161616;
+  }
+  h4{
+    color: ${colors.color_primary};
+  }
+`;
 export default Confirmation;

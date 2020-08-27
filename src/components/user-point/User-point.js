@@ -3,7 +3,7 @@ import {Avatar, ConfigProvider, Dropdown, Layout, Menu} from "antd";
 import {BrowserRouter, NavLink as Link, Route, Switch, useLocation} from "react-router-dom";
 import {SettingOutlined,AppstoreOutlined} from '@ant-design/icons';
 import Shipments from './Shipments';
-import PointHome from './Point-home';
+import PointHome from './point-home';
 import Confirmation from "./Confirmation";
 
 const { Header, Footer, Content } = Layout;
