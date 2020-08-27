@@ -1,21 +1,30 @@
-import React from 'react';
-import {Card, Col, List, Row, Skeleton, Descriptions ,ConfigProvider} from "antd";
-import {Link, useHistory, useLocation} from "react-router-dom";
-import {EditOutlined} from "@ant-design/icons"
+import React, {useState, useContext, useEffect} from 'react';
+import {useHistory, useParams,useLocation} from "react-router-dom";
+import {Card, Col, PageHeader, Row, Skeleton, Descriptions ,ConfigProvider} from "antd";
+import {SettingOutlined} from '@ant-design/icons';
 import {colors} from "../../styles/global";
 import {device} from "../../styles/device";
 import styled from "styled-components";
 
-
-const ShipmentCard = ({item}) => {
+const Confirmation = (item) => {
     let history = useHistory();
     let location = useLocation();
+    let { shipment_id } = useParams();
+    console.log("shipment id clicked--> ", shipment_id);
+
     return (
         <ConfigProvider 
         // direction={i18next.dir()}
         >
+        <PageHeader
+            className="webview-header ant-page-header-heading-title"
+            onBack={() => null}
+            title={"Confirmation"}
+            extra={<SettingOutlined />}
+        />
+        <div className="webview-container mg-bottom-30px">
         <StyledCard 
-            actions={[ <h2>released</h2>, ]}
+            actions={[ <h2>Confirm releasing</h2>, ]}
             key={item.name}
             onClick={() => {
                 history.push(`${location.pathname}/${item.id}`);
@@ -30,16 +39,18 @@ const ShipmentCard = ({item}) => {
             >
                 <h3>{item.name}</h3>
                 <Descriptions size="small" column={2}>
-                    <Descriptions.Item label="shipment No"><h4 className="color_primary">{item.shipmentNo}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Shipment Date"><h4>{item.shipmentDate}</h4></Descriptions.Item>
-                    <Descriptions.Item label="OCD"><h4>{item.ocd}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Quantity"><h4>{item.quantity}</h4></Descriptions.Item>
+                    <Descriptions.Item label="shipment No"><h4 className="color_primary">{"item.shipmentNo"}</h4></Descriptions.Item>
+                    <Descriptions.Item label="Shipment Date"><h4>{"item.shipmentDate"}</h4></Descriptions.Item>
+                    <Descriptions.Item label="OCD"><h4>{"item.ocd"}</h4></Descriptions.Item>
+                    <Descriptions.Item label="Quantity"><h4>{"item.quantity"}</h4></Descriptions.Item>
                 </Descriptions>
             </Skeleton>
         </StyledCard>
+        </div>
         </ConfigProvider>
     );
 };
+
 const StyledCard = styled(Card)`
   margin: 8px;
   width:-moz-available;
@@ -81,4 +92,4 @@ const StyledCard = styled(Card)`
     }
 `;
 
-export default ShipmentCard;
+export default Confirmation;

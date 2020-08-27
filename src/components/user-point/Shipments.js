@@ -47,11 +47,11 @@ const Shipments = () => {
                             xs: 1,sm: 1,md: 1,lg: 1,xl: 1,xxl:1,
                         }}
                         style={{width: '-moz-available'}}
-                        pagination={{
-                            onChange: (page) => {},
-                            pageSize: 12,
-                            size: "small"
-                        }}
+                        // pagination={{
+                        //     onChange: (page) => {},
+                        //     pageSize: 6,
+                        //     size: "small"
+                        // }}
                         dataSource={PointList}
                         renderItem={(item) => (
                             <ShipmentCard item={item}/>

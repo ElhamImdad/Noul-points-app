@@ -82,7 +82,7 @@
     margin-bottom: 0;
     color: #fff;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 32px;
     overflow: hidden;
     white-space: nowrap;
@@ -107,9 +107,10 @@
 }
 .webview-footer{
   background-color: #fff;
-  padding: 3px 20px;
+  padding: 2px 15px;
 }
 .webview-container{
+  height: 100%;
   width:100%;
   padding: 15px 15px 0 15px;
   margin: auto;

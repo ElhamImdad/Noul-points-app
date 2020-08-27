@@ -4,6 +4,7 @@ import {BrowserRouter, NavLink as Link, Route, Switch, useLocation} from "react-
 import {SettingOutlined,AppstoreOutlined} from '@ant-design/icons';
 import Shipments from './Shipments';
 import PointHome from './Point-home';
+import Confirmation from "./Confirmation";
 
 const { Header, Footer, Content } = Layout;
 
@@ -20,8 +21,7 @@ const UserPointIndex = (props) => {
                 <Switch>
                     <Route exact={true} path="/" component={() => <PointHome/>} />
                     <Route path="/Shipments" exact={true} component={() => <Shipments/>} />
-
-                    {/* <Route path="/points/:point_id" exact={true} component={() => <PointLayout/>} /> */}
+                    <Route path="/Shipments/:shipment_id" exact={true} component={() => <Confirmation/>} />
                 </Switch>
             </Layout>
 
