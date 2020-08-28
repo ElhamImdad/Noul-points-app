@@ -51,8 +51,8 @@ const RecievePage = () => {
           )}
           
 
-          <Row gutter={[16, 16]} style={{marginTop: "auto"}}>
-            <Col xs={20} sm={20} md={20} lg={20} xl={20} style={{margin: "auto"}}>
+          <Row gutter={[16, 16]} style={{marginTop: "auto", marginBottom: "60px"}}>
+            <Col xs={24} sm={20} md={18} lg={16} xl={14} style={{margin: "auto"}}>
               <PrimaryButton style={{display: "block", width: "100%", borderRadius: "50px"}}>done</PrimaryButton>
             </Col>
           </Row>
