@@ -35,8 +35,8 @@ const RecievePage = () => {
           </Row>
           <hr/>
 
-          {fakeData.shipmentsNo.map(sn => 
-            <Row gutter={[16, 16]}>
+          {fakeData.shipmentsNo.map((sn, i) => 
+            <Row gutter={[16, 16]} key={i}>
             <Col xs={20} sm={20} md={20} lg={20} xl={20}>
               <Card style={{ borderRadius: "50px" }} bodyStyle={{padding: "16px"}} bordered>
                 Shipment NO. <span className="color_primary">{sn}</span>
