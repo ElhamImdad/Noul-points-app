@@ -4,6 +4,10 @@ import { Layout,PageHeader, Row, Col, Card,Tabs,Menu } from 'antd';
 import {Link, useHistory, useLocation} from "react-router-dom";
 import {SettingOutlined} from '@ant-design/icons';
 import trackingBlue from '../../assets/tracking-blue.svg';
+import deliverdSVG from '../../assets/user-point/icons/deliverd.svg';
+import inStoreSVG from '../../assets/user-point/icons/in-store.svg';
+import cancelledSVG from '../../assets/user-point/icons/cancelled.svg';
+import onGoingSVG from '../../assets/user-point/icons/on-going.svg';
 import Shipments from './Shipments';
 
 const { Header, Footer, Content } = Layout;
@@ -30,8 +34,9 @@ const PointHome = () => {
                             <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                     <Row justify="space-around">
-                                        <strong className="color_primary">4</strong>
-                                        <span className="cd-content">Deliverd</span>
+                                        <strong className="color_primary" style={{...styles.verCenter, ...styles.dashboardNumber}}>4</strong>
+                                        <img src={deliverdSVG} width={dashboardIconWidth} alt=""/>
+                                        <span className="cd-content" style={{...styles.verCenter}}>Deliverd</span>
                                     </Row>
                             </Card>
                         </Col>
@@ -39,8 +44,9 @@ const PointHome = () => {
                             <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <Row justify="space-around">
-                                    <strong className="color_primary">4</strong>
-                                    <span className="cd-content">In Store</span>
+                                    <strong className="color_primary" style={{...styles.verCenter, ...styles.dashboardNumber}}>4</strong>
+                                    <img src={inStoreSVG} width={dashboardIconWidth} alt="" />
+                                    <span className="cd-content" style={{...styles.verCenter}}>In Store</span>
                                 </Row>
                             </Card>
                         </Col>
@@ -48,8 +54,9 @@ const PointHome = () => {
                             <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <Row justify="space-around">
-                                    <strong className="color_primary">4</strong>
-                                    <span className="cd-content">Canceled</span>
+                                    <strong className="color_primary" style={{...styles.verCenter, ...styles.dashboardNumber}}>4</strong>
+                                    <img src={cancelledSVG} width={dashboardIconWidth} alt="" />
+                                    <span className="cd-content" style={{...styles.verCenter}}>Cancelled</span>
                                 </Row>
                             </Card>
                         </Col>
@@ -57,8 +64,9 @@ const PointHome = () => {
                             <Card 
                                 style={{borderRadius: '7px'}}  bordered={false}>
                                 <Row justify="space-around">
-                                    <strong className="color_primary">4</strong>
-                                    <span className="cd-content">On going</span>
+                                    <strong className="color_primary" style={{...styles.verCenter, ...styles.dashboardNumber}}>4</strong>
+                                    <img src={onGoingSVG} width={dashboardIconWidth} alt="" />
+                                    <span className="cd-content" style={{...styles.verCenter}}>On going</span>
                                 </Row>
                             </Card>
                         </Col>
@@ -81,7 +89,8 @@ const PointHome = () => {
                             </Col>
                             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <Card 
-                                    style={{borderRadius: '7px'}}  bordered={false}>
+                                    style={{borderRadius: '7px'}}  bordered={false}
+                                    onClick={() => history.push("/recieve")}>
                                     <Row justify="space-around">
                                         <img src={trackingBlue}/>
                                         <h3><strong>Receive Shipments</strong></h3>
@@ -104,5 +113,18 @@ const PointHome = () => {
         </>
     );
 };
+const styles = {};
+styles.verCenter = {
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center"
+}
+
+styles.dashboardNumber = {
+    fontSize: "2rem",
+    paddingTop: "10px"
+}
+
+const dashboardIconWidth = 30;
 
 export default PointHome;
