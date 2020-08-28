@@ -1,10 +1,11 @@
 import React, { useState, useEffect} from "react";
 import {Avatar, ConfigProvider, Dropdown, Layout, Menu} from "antd";
 import {BrowserRouter, NavLink as Link, Route, Switch, useLocation} from "react-router-dom";
-import {SettingOutlined,AppstoreOutlined} from '@ant-design/icons';
+import {HomeOutlined,CreditCardOutlined,RiseOutlined,UserOutlined} from '@ant-design/icons';
 import Shipments from './Shipments';
 import PointHome from './point-home';
 import Confirmation from "./Confirmation";
+import RecievePage from "./recieve/RecievePage";
 
 const { Header, Footer, Content } = Layout;
 
@@ -17,15 +18,16 @@ const UserPointIndex = (props) => {
 
     return (
         <BrowserRouter>
-            <Layout>
+            <Layout style={{minHeight: "100vh", paddingBottom: "52px"}}>
                 <Switch>
                     <Route exact={true} path="/" component={() => <PointHome/>} />
+                    <Route path="/recieve" exact={true} component={() => <RecievePage/>} />
                     <Route path="/Shipments" exact={true} component={() => <Shipments/>} />
                     <Route path="/Shipments/:shipment_id" exact={true} component={() => <Confirmation/>} />
                 </Switch>
             </Layout>
 
-            <Layout>
+            <Layout style={{position: "fixed", bottom: "0", width: "100vw"}}>
             <Footer className="webview-footer">
                 <Menu theme="light" mode="horizontal" defaultSelectedKeys={['/']} 
                     className="flex-container space-between" 
@@ -36,22 +38,22 @@ const UserPointIndex = (props) => {
                 >
                     <Menu.Item key="/">
                         <Link to="/">
-                            <AppstoreOutlined />
+                            <HomeOutlined style={footerIconStyles}/>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="balance">
                         <Link to="balance">
-                            <AppstoreOutlined />
+                            <CreditCardOutlined style={footerIconStyles}/>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="statistic">
                         <Link to="statistic">
-                            <AppstoreOutlined />
+                            <RiseOutlined style={footerIconStyles}/>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="profile">
                         <Link to="profile">
-                            <AppstoreOutlined />
+                            <UserOutlined style={footerIconStyles}/>
                         </Link>
                     </Menu.Item>
                 </Menu>
@@ -60,5 +62,9 @@ const UserPointIndex = (props) => {
         </BrowserRouter>
     );
 };
+
+const footerIconStyles = {
+    margin: "auto"
+}
 
 export default UserPointIndex;
