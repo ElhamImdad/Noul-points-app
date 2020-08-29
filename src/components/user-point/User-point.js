@@ -22,6 +22,7 @@ import UserPointState from "../../context/user-point/userPointState";
 import { useContext } from "react";
 import UserPointContext from "../../context/user-point/userPointContext";
 import { colors } from "../../styles/global";
+import AllOrders from "./AllOrders";
 
 const { Footer } = Layout;
 
@@ -35,6 +36,7 @@ const UserPointIndex = (props) => {
         <Layout style={{ minHeight: "100vh", paddingBottom: "52px" }}>
           <Switch>
             <Route exact path="/" component={PointHome} />
+            <Route path="/orders" exact component={AllOrders} />
             <Route path="/recieve" exact component={RecievePage} />
             <Route path="/Shipments" exact component={Shipments} />
             <Route
