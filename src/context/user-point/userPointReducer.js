@@ -1,4 +1,4 @@
-import { SET_ANALYSIS, SET_LOADING } from "./userPointActions";
+import { SET_ANALYSIS, SET_LOADING, SET_ALL_ORDERS } from "./userPointActions";
 
 const UserPointReducer = (state, action) => {
   switch (action.type) {
@@ -11,6 +11,12 @@ const UserPointReducer = (state, action) => {
       return {
         ...state,
         analysis: { ...action.payload },
+        loading: false,
+      };
+    case SET_ALL_ORDERS:
+      return {
+        ...state,
+        allOrders: {...action.payload},
         loading: false,
       };
     default:
