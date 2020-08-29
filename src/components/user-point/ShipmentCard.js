@@ -1,84 +1,89 @@
-import React from 'react';
-import {Card, Col, List, Row, Skeleton, Descriptions ,ConfigProvider} from "antd";
-import {Link, useHistory, useLocation} from "react-router-dom";
-import {EditOutlined} from "@ant-design/icons"
-import {colors} from "../../styles/global";
-import {device} from "../../styles/device";
+import React from "react";
+import { Card, Skeleton, Descriptions, ConfigProvider } from "antd";
+import { useHistory, useLocation } from "react-router-dom";
+import { colors } from "../../styles/global";
+import { device } from "../../styles/device";
 import styled from "styled-components";
 
-
-const ShipmentCard = ({item}) => {
-    let history = useHistory();
-    let location = useLocation();
-    return (
-        <ConfigProvider 
-        // direction={i18next.dir()}
-        >
-        <StyledCard 
-            actions={[ <h2>released</h2>, ]}
-            key={item.name}
-            onClick={() => {
-                history.push(`${location.pathname}/${item.id}`);
-                console.log("location path--",location.pathname)
-            }}
-        >
-            <Skeleton
-                avatar
-                title={false}
-                loading={false}
-                active
-            >
-                <h3>{item.name}</h3>
-                <Descriptions size="small" column={2}>
-                    <Descriptions.Item label="shipment No"><h4 className="color_primary">{item.shipmentNo}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Shipment Date"><h4>{item.shipmentDate}</h4></Descriptions.Item>
-                    <Descriptions.Item label="OCD"><h4>{item.ocd}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Quantity"><h4>{item.quantity}</h4></Descriptions.Item>
-                </Descriptions>
-            </Skeleton>
-        </StyledCard>
-        </ConfigProvider>
-    );
+const ShipmentCard = ({ item, cardAction }) => {
+  let history = useHistory();
+  let location = useLocation();
+  return (
+    <ConfigProvider>
+      <StyledCard
+        actions={[<h2 style={{...styles.verCenter, margin: "0 auto", marginTop: ".3rem"}}>{item.order_status.status}</h2>]}
+        onClick={() => history.push(`${location.pathname}/${item.id}`)}
+        key={item.name}
+      >
+        <Skeleton avatar title={false} loading={false} active>
+          <h3>{item.name}</h3>
+          <Descriptions size="small" column={2}>
+            <Descriptions.Item label="Tracking ID">
+              <h4 className="color_primary">{item.tracking_id}</h4>
+            </Descriptions.Item>
+            <Descriptions.Item label="Sender">
+              <h4>{item.sender.sender_name}</h4>
+            </Descriptions.Item>
+            <Descriptions.Item label="From">
+              <h4>{item.sender.sender_address}</h4>
+            </Descriptions.Item>
+            <Descriptions.Item label="Reciever">
+              <h4>{item.receiver.receiver_name}</h4>
+            </Descriptions.Item>
+            <Descriptions.Item label="To">
+              <h4>{item.receiver.receiver_address}</h4>
+            </Descriptions.Item>
+          </Descriptions>
+        </Skeleton>
+      </StyledCard>
+    </ConfigProvider>
+  );
 };
 const StyledCard = styled(Card)`
   margin: 8px;
-  width:-moz-available;
+  width: -moz-available;
   color: white;
   border: ${colors.color_primary};
-  h2{
-  color: ${colors.color_primary};
+  h2 {
+    color: ${colors.color_primary};
   }
   h3 {
     color: #161616;
     font-weight: 700;
   }
-  h4{
+  h4 {
     color: #161616;
     font-weight: 600;
   }
-   border: .2px solid ${colors.light_grey};
+  border: 0.2px solid ${colors.light_grey};
   border-radius: 16px;
   .user-dropdown-avatar {
     margin: 1em 0;
   }
-   @media (${device.mobileL}) {
-      height: fit-content;
-
-    }
-    .ant-card-actions {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        background: #fafafa;
-        border-top: 1px solid #f0f0f0;
-        border-bottom-right-radius: 16px;
-        border-bottom-left-radius: 16px;
-    }
-    .ant-card-actions > li {
-        float: left;
-        margin: 0 0;
-        text-align: center;
-    }
+  @media (${device.mobileL}) {
+    height: fit-content;
+  }
+  .ant-card-actions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+  .ant-card-actions > li {
+    float: left;
+    margin: 0 0;
+    text-align: center;
+  }
 `;
+
+const styles = {};
+styles.verCenter = {
+  display: "inline-flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 export default ShipmentCard;

@@ -1,15 +1,12 @@
 import React from 'react';
 import {device} from "../../styles/device";
 import styled from "styled-components";
-import { Layout,PageHeader, Row, Col, Button,Space,Input,ConfigProvider,List } from 'antd';
+import { PageHeader, Row, Col, Button,Input,ConfigProvider,List } from 'antd';
 import {SettingOutlined} from '@ant-design/icons';
-import {StyledSearch} from "../global-styled-components/Inputs";
-import {PrimaryButton} from "../global-styled-components/Buttons";
 import ShipmentCard from './ShipmentCard';
 
 const Shipments = () => {
     const {Search} = Input;
-    console.log("shipments page")
     return (
         <>
             <PageHeader
@@ -39,7 +36,6 @@ const Shipments = () => {
             </Row>
             <Wrapper>
                 <ConfigProvider
-                //  direction={i18next.dir()}
                  >
                     <List
                         grid={{
@@ -47,11 +43,6 @@ const Shipments = () => {
                             xs: 1,sm: 1,md: 1,lg: 1,xl: 1,xxl:1,
                         }}
                         style={{width: '-moz-available'}}
-                        // pagination={{
-                        //     onChange: (page) => {},
-                        //     pageSize: 6,
-                        //     size: "small"
-                        // }}
                         dataSource={PointList}
                         renderItem={(item) => (
                             <ShipmentCard item={item}/>
