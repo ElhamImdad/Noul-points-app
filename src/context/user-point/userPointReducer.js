@@ -3,6 +3,7 @@ import {
   SET_LOADING,
   SET_ALL_ORDERS,
   SET_RELEASED_ORDERS,
+  SET_CONFIRM_RELEASE_ORDERS,
 } from "./userPointActions";
 
 const UserPointReducer = (state, action) => {
@@ -29,6 +30,11 @@ const UserPointReducer = (state, action) => {
         ...state,
         releasedOrders: { ...action.payload },
         loading: false,
+      };
+      case SET_CONFIRM_RELEASE_ORDERS:
+      return {
+        ...state,
+        confirmingReleaseOrder: { ...action.payload },
       };
     default:
       return state;

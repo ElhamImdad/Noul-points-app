@@ -1,147 +1,164 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {useHistory, useParams,useLocation} from "react-router-dom";
-import {Card, Col, PageHeader, Row, Skeleton, Descriptions ,ConfigProvider,Modal} from "antd";
-import ReactCodeInput from 'react-verification-code-input';
-import {SettingOutlined} from '@ant-design/icons';
-import {colors} from "../../styles/global";
-import {device} from "../../styles/device";
+import React, { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import {
+  Card,
+  PageHeader,
+  Skeleton,
+  Descriptions,
+  ConfigProvider,
+  Modal,
+} from "antd";
+import ReactCodeInput from "react-verification-code-input";
+import {
+  CloseCircleOutlined,
+  CheckCircleOutlined,
+  BellOutlined,
+} from "@ant-design/icons";
+import { colors } from "../../styles/global";
+import { device } from "../../styles/device";
 import styled from "styled-components";
+import UserPointContext from "../../context/user-point/userPointContext";
 
-const { confirm } = Modal;
+const Confirmation = (props) => {
+  const userPointContext = useContext(UserPointContext);
+  const { releaseOrder, confirmingReleaseOrder } = userPointContext;
 
-const Confirmation = (item) => {
-    let history = useHistory();
-    let location = useLocation();
-    let { shipment_id } = useParams();
-    let [visible, setVisible] = useState(false);
-    console.log("shipment id clicked--> ", shipment_id);
+  let { tracking_id } = useParams();
 
-    const showModal = () => {setVisible(true)};
-    const closeModal = () => {
-        setVisible(false);
-    };
-    function success() {
-        Modal.success({
-            // className: 'aln-center',
-            icon: <SettingOutlined className="color_primary"/>,
-            title: <h2>Released!</h2>,
-            content: <h3>The shipment has been delivered and released from your store</h3>,
-            okText: <h4>Well done!</h4>,
-            okType: 'ghost',
-        });
+  let [visible, setVisible] = useState(false);
+  const showModal = () => setVisible(true);
+  const closeModal = () => setVisible(false);
+
+  const release = async (otp) => {
+    try {
+      await releaseOrder({ tracking_id, otp });
+      showSuccess();
+    } catch (error) {
+      showError();
     }
+  };
 
-    return (
-        <ConfigProvider 
-        // direction={i18next.dir()}
+  const showSuccess = () => {
+    Modal.success({
+      icon: <CheckCircleOutlined className="color_primary" />,
+      title: <h2>Released!</h2>,
+      content: (
+        <h3>The shipment has been delivered and released from your store</h3>
+      ),
+      okText: <h4>Ok</h4>,
+      okType: "ghost",
+    });
+  };
+
+  const showError = () => {
+    Modal.error({
+      icon: <CloseCircleOutlined className="color_primary" />,
+      title: <h2>NOT Released</h2>,
+      content: <h3>Some error ocured during this process</h3>,
+      okText: <h4>Ok</h4>,
+      okType: "ghost",
+    });
+  };
+
+  return (
+    <ConfigProvider>
+      <PageHeader
+        className="webview-header ant-page-header-heading-title"
+        onBack={() => null}
+        title={"Confirmation"}
+        extra={<BellOutlined style={{ color: "#fff" }} />}
+      />
+      <div className="webview-container mg-bottom-30px">
+        <StyledCard
+          actions={[<h2>Confirm releasing</h2>]}
+          onClick={() => showModal()}
         >
-        <PageHeader
-            className="webview-header ant-page-header-heading-title"
-            onBack={() => null}
-            title={"Confirmation"}
-            extra={<SettingOutlined />}
-        />
-        <div className="webview-container mg-bottom-30px">
-        <StyledCard 
-            actions={[ <h2>Confirm releasing</h2>, ]}
-            key={item.name}
-            onClick={() => {
-                // history.push(`${location.pathname}/${item.id}`);
-                showModal();
-                console.log("confimation--> ",location.pathname);
-            }}
-        >
-            <Modal className="aln-center"
-                visible={visible}
-                closable={false}
-                centered={true}
-                style={{backgroundColor:'transparent'}}
-                transparent={true}
-                footer={null}
-                >
-                    <span className="aln-center">
-                    <ReactCodeInput 
-                        fields={4} 
-                        onComplete={(value)=>{
-                            closeModal()
-                            console.log("done!!",value);
-                            success()}}/>
-                            
-                    </span>
-            </Modal>
-            <Skeleton
-                avatar
-                title={false}
-                loading={false}
-                active
-            >
-                <h3>{item.name}</h3>
-                <Descriptions size="small" column={2}>
-                    <Descriptions.Item label="shipment No"><h4 className="color_primary">{"item.shipmentNo"}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Shipment Date"><h4>{"item.shipmentDate"}</h4></Descriptions.Item>
-                    <Descriptions.Item label="OCD"><h4>{"item.ocd"}</h4></Descriptions.Item>
-                    <Descriptions.Item label="Quantity"><h4>{"item.quantity"}</h4></Descriptions.Item>
-                </Descriptions>
-            </Skeleton>
+          <Modal
+            className="aln-center"
+            visible={visible}
+            closable={false}
+            centered={true}
+            style={{ backgroundColor: "transparent" }}
+            transparent={true}
+            footer={null}
+          >
+            <h3>Please enter OTP</h3>
+            <span className="aln-center">
+              <ReactCodeInput
+                fields={6}
+                onComplete={(value) => {
+                  closeModal();
+                  release(value);
+                }}
+              />
+            </span>
+          </Modal>
+
+          <Skeleton avatar title={false} loading={false} active>
+            <Descriptions size="small" column={2}>
+              <Descriptions.Item label="Tracking ID">
+                <h4 className="color_primary">{confirmingReleaseOrder.tracking_id}</h4>
+              </Descriptions.Item>
+              <Descriptions.Item label="Order Status">
+                <h4>{confirmingReleaseOrder.order_status.status}</h4>
+              </Descriptions.Item>
+              <Descriptions.Item label="Sender">
+                <h4>{confirmingReleaseOrder.sender.sender_name}</h4>
+              </Descriptions.Item>
+              <Descriptions.Item label="From">
+                <h4>{confirmingReleaseOrder.sender.sender_address}</h4>
+              </Descriptions.Item>
+              <Descriptions.Item label="Reciever">
+                <h4>{confirmingReleaseOrder.receiver.receiver_name}</h4>
+              </Descriptions.Item>
+              <Descriptions.Item label="To">
+                <h4>{confirmingReleaseOrder.receiver.receiver_address}</h4>
+              </Descriptions.Item>
+            </Descriptions>
+          </Skeleton>
         </StyledCard>
-        </div>
-        </ConfigProvider>
-    );
+      </div>
+    </ConfigProvider>
+  );
 };
 
 const StyledCard = styled(Card)`
   margin: 8px;
-  width:-moz-available;
+  width: -moz-available;
   color: white;
   border: ${colors.color_primary};
-  h2{
-  color: ${colors.color_primary};
+  h2 {
+    color: ${colors.color_primary};
   }
   h3 {
     color: #161616;
     font-weight: 700;
   }
-  h4{
+  h4 {
     color: #161616;
     font-weight: 600;
   }
-   border: .2px solid ${colors.light_grey};
+  border: 0.2px solid ${colors.light_grey};
   border-radius: 16px;
   .user-dropdown-avatar {
     margin: 1em 0;
   }
-   @media (${device.mobileL}) {
-      height: fit-content;
-
-    }
-    .ant-card-actions {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        background: #fafafa;
-        border-top: 1px solid #f0f0f0;
-        border-bottom-right-radius: 16px;
-        border-bottom-left-radius: 16px;
-    }
-    .ant-card-actions > li {
-        float: left;
-        margin: 0 0;
-        text-align: center;
-    }
-`;
-const StyledModal = styled(Modal)`
-  padding: 8px;
-  width:-moz-available;
-  color: white;
-  h2{
-  color: ${colors.color_primary};
-  font-weight: 600;
+  @media (${device.mobileL}) {
+    height: fit-content;
   }
-  h3 {
-    color: #161616;
+  .ant-card-actions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
   }
-  h4{
-    color: ${colors.color_primary};
+  .ant-card-actions > li {
+    float: left;
+    margin: 0 0;
+    text-align: center;
   }
 `;
 export default Confirmation;

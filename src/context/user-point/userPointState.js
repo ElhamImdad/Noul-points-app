@@ -8,6 +8,7 @@ import {
   SET_LOADING,
   SET_ALL_ORDERS,
   SET_RELEASED_ORDERS,
+  SET_CONFIRM_RELEASE_ORDERS,
 } from "./userPointActions";
 
 const headers = () => ({
@@ -21,6 +22,7 @@ const UserPointState = (props) => {
     analysis: {},
     allOrders: {},
     releasedOrders: {},
+    confirmingReleaseOrder: {}
   };
 
   const [state, dispatch] = useReducer(UserPointReducer, initailState);
@@ -49,6 +51,10 @@ const UserPointState = (props) => {
     dispatch({ type: SET_RELEASED_ORDERS, payload: res.data });
   };
 
+  const setConfirmingRleaseOrder = (item) => {
+    dispatch({ type: SET_CONFIRM_RELEASE_ORDERS, payload: item })
+  }
+
   const releaseOrder = async ({ tracking_id, otp }) => {
     const res = await axios.post(
       `/V1/user-point/release-order`,
@@ -57,6 +63,7 @@ const UserPointState = (props) => {
         headers: headers(),
       }
     );
+    console.log(res.data);
   };
 
   return (
@@ -66,10 +73,12 @@ const UserPointState = (props) => {
         analysis: state.analysis,
         allOrders: state.allOrders,
         releasedOrders: state.releasedOrders,
+        confirmingReleaseOrder: state.confirmingReleaseOrder,
         getAnalysis,
         getAllOrders,
         getReleaseOrders,
         releaseOrder,
+        setConfirmingRleaseOrder,
       }}
     >
       {props.children}

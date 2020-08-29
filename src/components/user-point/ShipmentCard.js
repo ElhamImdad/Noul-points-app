@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Skeleton, Descriptions, ConfigProvider } from "antd";
 import { useHistory, useLocation } from "react-router-dom";
 import { colors } from "../../styles/global";
 import { device } from "../../styles/device";
 import styled from "styled-components";
+import UserPointContext from "../../context/user-point/userPointContext";
 
 const ShipmentCard = ({ item, cardAction }) => {
+  const userPointContext = useContext(UserPointContext);
+  const { setConfirmingRleaseOrder } = userPointContext;
+
   let history = useHistory();
   let location = useLocation();
   return (
@@ -23,7 +27,10 @@ const ShipmentCard = ({ item, cardAction }) => {
           </h2>,
         ] : []}
         onClick={() => {
-          if (cardAction) history.push(`${location.pathname}/${item.tracking_id}`);
+          if (cardAction) {
+            setConfirmingRleaseOrder(item);
+            history.push(`${location.pathname}/${item.tracking_id}`);
+          };
         }}
         key={item.name}
       >
