@@ -22,7 +22,7 @@ const UserPointState = (props) => {
     analysis: {},
     allOrders: {},
     releasedOrders: {},
-    confirmingReleaseOrder: {}
+    confirmingReleaseOrder: {},
   };
 
   const [state, dispatch] = useReducer(UserPointReducer, initailState);
@@ -45,15 +45,18 @@ const UserPointState = (props) => {
 
   const getReleaseOrders = async (page = 1) => {
     dispatch({ type: SET_LOADING });
-    const res = await axios.get(`/V1/user-point/orders?get=release&page=${page}`, {
-      headers: headers(),
-    });
+    const res = await axios.get(
+      `/V1/user-point/orders?get=release&page=${page}`,
+      {
+        headers: headers(),
+      }
+    );
     dispatch({ type: SET_RELEASED_ORDERS, payload: res.data });
   };
 
   const setConfirmingRleaseOrder = (item) => {
-    dispatch({ type: SET_CONFIRM_RELEASE_ORDERS, payload: item })
-  }
+    dispatch({ type: SET_CONFIRM_RELEASE_ORDERS, payload: item });
+  };
 
   const releaseOrder = async ({ tracking_id, otp }) => {
     const res = await axios.post(
@@ -64,6 +67,13 @@ const UserPointState = (props) => {
       }
     );
     console.log(res.data);
+  };
+
+  const updateOrderStatus = async (orders) => {
+    const res = await axios.post(`/V1/user-point/update-order-status`, orders, {
+      headers: headers(),
+    });
+    return res.data;
   };
 
   return (
@@ -79,6 +89,7 @@ const UserPointState = (props) => {
         getReleaseOrders,
         releaseOrder,
         setConfirmingRleaseOrder,
+        updateOrderStatus,
       }}
     >
       {props.children}
