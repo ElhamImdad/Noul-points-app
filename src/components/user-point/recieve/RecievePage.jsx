@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
-import { PageHeader, Layout, Row, Col, Card, Button, Input, Modal } from "antd";
+import { Layout, Row, Col, Card, Button, Input, Modal } from "antd";
 import {
-  BellOutlined,
   DeleteOutlined,
   QrcodeOutlined,
   CloseCircleOutlined,
@@ -75,6 +74,7 @@ const RecievePage = () => {
       ),
       okText: <h4>Ok</h4>,
       okType: "ghost",
+      centered: true
     });
   };
 
@@ -85,19 +85,13 @@ const RecievePage = () => {
       content: <h3>Some error ocured during this process</h3>,
       okText: <h4>Ok</h4>,
       okType: "ghost",
+      centered: true
     });
   };
 
   return (
     <>
       <Layout>
-        <PageHeader
-          className="webview-header ant-page-header-heading-title"
-          onBack={() => null}
-          title="Scan"
-          extra={<BellOutlined style={{ color: "#fff" }} />}
-        />
-
         <Content
           className="webview-container"
           style={{ display: "flex", flexDirection: "column" }}

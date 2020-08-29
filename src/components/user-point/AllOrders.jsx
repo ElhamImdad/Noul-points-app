@@ -1,17 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { device } from "../../styles/device";
 import styled from "styled-components";
-import {
-  PageHeader,
-  Row,
-  Col,
-  Button,
-  Input,
-  ConfigProvider,
-  List,
-  Pagination,
-} from "antd";
-import { QrcodeOutlined, BellOutlined } from "@ant-design/icons";
+import { Input, ConfigProvider, List, Pagination } from "antd";
 import ShipmentCard from "./ShipmentCard";
 import UserPointContext from "../../context/user-point/userPointContext";
 import UserPointLoading from "./UserPointLoading";
@@ -30,12 +20,6 @@ const AllOrders = () => {
   const { Search } = Input;
   return (
     <>
-      <PageHeader
-        className="webview-header ant-page-header-heading-title"
-        onBack={() => null}
-        title={"All Orders"}
-        extra={<BellOutlined style={{ color: "#fff" }} />}
-      />
       <div className="webview-container">
         {loading ? (
           <UserPointLoading />
@@ -67,7 +51,7 @@ const AllOrders = () => {
                 )}
               />
               <Pagination
-                style={{ width: "fit-content", margin: "auto" }}
+                style={{ width: "fit-content", margin: "auto", ...styles.center }}
                 onChange={onPageChange}
                 current={allOrders.current_page}
                 total={allOrders.total}

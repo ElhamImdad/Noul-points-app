@@ -3,6 +3,8 @@ import { Layout, PageHeader, Row, Col, Card } from "antd";
 import { useHistory } from "react-router-dom";
 import { SettingOutlined } from "@ant-design/icons";
 import trackingBlue from "../../assets/tracking-blue.svg";
+import boxYellow from "../../assets/inproccess-icon.svg";
+import trackingGreen from "../../assets/order-success-icon.svg";
 import deliverdSVG from "../../assets/user-point/icons/deliverd.svg";
 import inStoreSVG from "../../assets/user-point/icons/in-store.svg";
 import cancelledSVG from "../../assets/user-point/icons/cancelled.svg";
@@ -24,12 +26,6 @@ const PointHome = () => {
   return (
     <>
       <Layout>
-        <PageHeader
-          className="webview-header ant-page-header-heading-title"
-          onBack={() => null}
-          title="Home"
-          extra={<SettingOutlined />}
-        />
         {loading ? (
           <UserPointLoading />
         ) : (
@@ -124,7 +120,7 @@ const PointHome = () => {
                     <h3  style={{textAlign: "center", ...styles.verCenter}}>
                       <strong>Release Shipments</strong>
                     </h3>
-                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Browse {"&"} release</h4>
                   </Row>
                 </Card>
               </Col>
@@ -135,11 +131,11 @@ const PointHome = () => {
                   onClick={() => history.push("/recieve")}
                 >
                   <Row justify="space-around">
-                    <img src={trackingBlue} alt="" />
+                    <img src={trackingGreen} alt="" />
                     <h3 style={{textAlign: "center", ...styles.verCenter}}>
                       <strong>Receive Shipments</strong>
                     </h3>
-                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the QR-Code</h4>
                   </Row>
                 </Card>
               </Col>
@@ -150,11 +146,11 @@ const PointHome = () => {
                   onClick={() => history.push("/orders")}
                 >
                   <Row justify="space-around" align="center">
-                    <img src={trackingBlue} alt="" />
+                    <img src={boxYellow} alt=""/>
                     <h3 style={{textAlign: "center", ...styles.verCenter}}>
                       <strong>All Orders</strong>
                     </h3>
-                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Browse all orders</h4>
                   </Row>
                 </Card>
               </Col>

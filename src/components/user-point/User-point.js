@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import {
-  BrowserRouter,
+  HashRouter as Router,
   NavLink as Link,
   Route,
   Switch,
@@ -19,6 +19,7 @@ import RecievePage from "./recieve/RecievePage";
 import UserPointState from "../../context/user-point/userPointState";
 import AllOrders from "./AllOrders";
 import ReleaseOrders from "./ReleaseOrders";
+import Header from "./Header";
 
 const { Footer } = Layout;
 
@@ -28,14 +29,20 @@ const UserPointIndex = () => {
 
   return (
     <UserPointState>
-      <BrowserRouter>
-        <Layout style={{ minHeight: "100vh", paddingBottom: "52px" }}>
+      <Header />
+      <Router>
+        <Layout
+          style={{
+            minHeight: "100vh",
+            paddingBottom: "52px",
+            paddingTop: "5rem",
+          }}
+        >
           <Switch>
-            <Route exact path="/" component={PointHome} />
+            <Route path="/" exact component={PointHome} />
             <Route path="/orders" exact component={AllOrders} />
             <Route path="/recieve" exact component={RecievePage} />
             <Route path="/release" exact component={ReleaseOrders} />
-            {/* <Route path="/Shipments" exact component={Shipments} /> */}
             <Route
               path="/release/:tracking_id"
               exact
@@ -61,24 +68,24 @@ const UserPointIndex = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item key="balance">
-                <Link to="balance">
+                <Link to="/balance">
                   <CreditCardOutlined style={footerIconStyles} />
                 </Link>
               </Menu.Item>
               <Menu.Item key="statistic">
-                <Link to="statistic">
+                <Link to="/statistic">
                   <RiseOutlined style={footerIconStyles} />
                 </Link>
               </Menu.Item>
               <Menu.Item key="profile">
-                <Link to="profile">
+                <Link to="/profile">
                   <UserOutlined style={footerIconStyles} />
                 </Link>
               </Menu.Item>
             </Menu>
           </Footer>
         </Layout>
-      </BrowserRouter>
+      </Router>
     </UserPointState>
   );
 };

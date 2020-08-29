@@ -1,14 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { device } from "../../styles/device";
 import styled from "styled-components";
-import {
-  PageHeader,
-  Input,
-  ConfigProvider,
-  List,
-  Pagination,
-} from "antd";
-import { BellOutlined } from "@ant-design/icons";
+import { Input, ConfigProvider, List, Pagination } from "antd";
 import ShipmentCard from "./ShipmentCard";
 import UserPointContext from "../../context/user-point/userPointContext";
 import UserPointLoading from "./UserPointLoading";
@@ -27,12 +20,6 @@ const ReleaseOrders = () => {
   const { Search } = Input;
   return (
     <>
-      <PageHeader
-        className="webview-header ant-page-header-heading-title"
-        onBack={() => null}
-        title={"Release Orders"}
-        extra={<BellOutlined style={{ color: "#fff" }} />}
-      />
       <div className="webview-container">
         {loading ? (
           <UserPointLoading />
@@ -59,12 +46,10 @@ const ReleaseOrders = () => {
                 }}
                 style={{ width: "-moz-available" }}
                 dataSource={releasedOrders.data}
-                renderItem={(item) => (
-                  <ShipmentCard item={item} cardAction />
-                )}
+                renderItem={(item) => <ShipmentCard item={item} cardAction />}
               />
               <Pagination
-                style={{ width: "fit-content", margin: "auto" }}
+                style={{ width: "fit-content", margin: "auto", ...styles.center }}
                 onChange={onPageChange}
                 current={releasedOrders.current_page}
                 total={releasedOrders.total}

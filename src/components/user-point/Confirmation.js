@@ -1,31 +1,26 @@
-import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import {
-  Card,
-  PageHeader,
-  Skeleton,
-  Descriptions,
-  ConfigProvider,
-  Modal,
-} from "antd";
+import React, { useState, useContext, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { Card, Skeleton, Descriptions, ConfigProvider, Modal } from "antd";
 import ReactCodeInput from "react-verification-code-input";
-import {
-  CloseCircleOutlined,
-  CheckCircleOutlined,
-  BellOutlined,
-} from "@ant-design/icons";
+import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { colors } from "../../styles/global";
 import { device } from "../../styles/device";
 import styled from "styled-components";
 import UserPointContext from "../../context/user-point/userPointContext";
 
-const Confirmation = (props) => {
+const Confirmation = () => {
   const userPointContext = useContext(UserPointContext);
   const { releaseOrder, confirmingReleaseOrder } = userPointContext;
 
-  let { tracking_id } = useParams();
+  const { tracking_id } = useParams();
+  const history = useHistory();
+  useEffect(() => {
+    if(!confirmingReleaseOrder.order_status) {
+      history.goBack();
+    }
+  }, [])
 
-  let [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const closeModal = () => setVisible(false);
 
@@ -47,6 +42,7 @@ const Confirmation = (props) => {
       ),
       okText: <h4>Ok</h4>,
       okType: "ghost",
+      centered: true
     });
   };
 
@@ -57,17 +53,12 @@ const Confirmation = (props) => {
       content: <h3>Some error ocured during this process</h3>,
       okText: <h4>Ok</h4>,
       okType: "ghost",
+      centered: true
     });
   };
 
   return (
     <ConfigProvider>
-      <PageHeader
-        className="webview-header ant-page-header-heading-title"
-        onBack={() => null}
-        title={"Confirmation"}
-        extra={<BellOutlined style={{ color: "#fff" }} />}
-      />
       <div className="webview-container mg-bottom-30px">
         <StyledCard
           actions={[<h2>Confirm releasing</h2>]}
@@ -97,22 +88,24 @@ const Confirmation = (props) => {
           <Skeleton avatar title={false} loading={false} active>
             <Descriptions size="small" column={2}>
               <Descriptions.Item label="Tracking ID">
-                <h4 className="color_primary">{confirmingReleaseOrder.tracking_id}</h4>
+                <h4 className="color_primary">
+                  {confirmingReleaseOrder.tracking_id || ""}
+                </h4>
               </Descriptions.Item>
               <Descriptions.Item label="Order Status">
-                <h4>{confirmingReleaseOrder.order_status.status}</h4>
+                <h4>{confirmingReleaseOrder.order_status?.status || ""}</h4>
               </Descriptions.Item>
               <Descriptions.Item label="Sender">
-                <h4>{confirmingReleaseOrder.sender.sender_name}</h4>
+                <h4>{confirmingReleaseOrder.sender?.sender_name || ""}</h4>
               </Descriptions.Item>
               <Descriptions.Item label="From">
-                <h4>{confirmingReleaseOrder.sender.sender_address}</h4>
+                <h4>{confirmingReleaseOrder.sender?.sender_address || ""}</h4>
               </Descriptions.Item>
               <Descriptions.Item label="Reciever">
-                <h4>{confirmingReleaseOrder.receiver.receiver_name}</h4>
+                <h4>{confirmingReleaseOrder.receiver?.receiver_name || ""}</h4>
               </Descriptions.Item>
               <Descriptions.Item label="To">
-                <h4>{confirmingReleaseOrder.receiver.receiver_address}</h4>
+                <h4>{confirmingReleaseOrder.receiver?.receiver_address || ""}</h4>
               </Descriptions.Item>
             </Descriptions>
           </Skeleton>
