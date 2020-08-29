@@ -12,23 +12,19 @@ import {
   CreditCardOutlined,
   RiseOutlined,
   UserOutlined,
-  LoadingOutlined,
 } from "@ant-design/icons";
-import Shipments from "./Shipments";
 import PointHome from "./point-home";
 import Confirmation from "./Confirmation";
 import RecievePage from "./recieve/RecievePage";
 import UserPointState from "../../context/user-point/userPointState";
-import { useContext } from "react";
-import UserPointContext from "../../context/user-point/userPointContext";
-import { colors } from "../../styles/global";
 import AllOrders from "./AllOrders";
+import ReleaseOrders from "./ReleaseOrders";
 
 const { Footer } = Layout;
 
-const UserPointIndex = (props) => {
+const UserPointIndex = () => {
   let location = useLocation();
-  let [selected, setSelected] = useState([location.pathname]);
+  let [, setSelected] = useState([location.pathname]);
 
   return (
     <UserPointState>
@@ -38,9 +34,10 @@ const UserPointIndex = (props) => {
             <Route exact path="/" component={PointHome} />
             <Route path="/orders" exact component={AllOrders} />
             <Route path="/recieve" exact component={RecievePage} />
-            <Route path="/Shipments" exact component={Shipments} />
+            <Route path="/release" exact component={ReleaseOrders} />
+            {/* <Route path="/Shipments" exact component={Shipments} /> */}
             <Route
-              path="/Shipments/:shipment_id"
+              path="/release/:tracking_id"
               exact
               component={Confirmation}
             />

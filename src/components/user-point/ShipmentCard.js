@@ -11,8 +11,20 @@ const ShipmentCard = ({ item, cardAction }) => {
   return (
     <ConfigProvider>
       <StyledCard
-        actions={[<h2 style={{...styles.verCenter, margin: "0 auto", marginTop: ".3rem"}}>{item.order_status.status}</h2>]}
-        onClick={() => history.push(`${location.pathname}/${item.id}`)}
+        actions={cardAction ? [
+          <h2
+            style={{
+              ...styles.verCenter,
+              margin: "0 auto",
+              marginTop: ".3rem",
+            }}
+          >
+            Release
+          </h2>,
+        ] : []}
+        onClick={() => {
+          if (cardAction) history.push(`${location.pathname}/${item.tracking_id}`);
+        }}
         key={item.name}
       >
         <Skeleton avatar title={false} loading={false} active>
@@ -20,6 +32,9 @@ const ShipmentCard = ({ item, cardAction }) => {
           <Descriptions size="small" column={2}>
             <Descriptions.Item label="Tracking ID">
               <h4 className="color_primary">{item.tracking_id}</h4>
+            </Descriptions.Item>
+            <Descriptions.Item label="Order Status">
+              <h4>{item.order_status.status}</h4>
             </Descriptions.Item>
             <Descriptions.Item label="Sender">
               <h4>{item.sender.sender_name}</h4>

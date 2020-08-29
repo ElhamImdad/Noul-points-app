@@ -117,12 +117,12 @@ const PointHome = () => {
                 <Card
                   style={{ borderRadius: "7px", height: "100%" }}
                   bordered={false}
-                  onClick={() => history.push("/Shipments")}
+                  onClick={() => history.push("/release")}
                 >
                   <Row justify="space-around">
                     <img src={trackingBlue} alt="" />
                     <h3  style={{textAlign: "center", ...styles.verCenter}}>
-                      <strong>Released Shipments</strong>
+                      <strong>Release Shipments</strong>
                     </h3>
                     <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
                   </Row>
