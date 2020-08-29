@@ -115,31 +115,46 @@ const PointHome = () => {
             <Row gutter={[16, 16]}>
               <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Card
-                  style={{ borderRadius: "7px" }}
+                  style={{ borderRadius: "7px", height: "100%" }}
                   bordered={false}
                   onClick={() => history.push("/Shipments")}
                 >
                   <Row justify="space-around">
                     <img src={trackingBlue} alt="" />
-                    <h3>
+                    <h3  style={{textAlign: "center", ...styles.verCenter}}>
                       <strong>Released Shipments</strong>
                     </h3>
-                    <h4>Scan the barcode</h4>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
                   </Row>
                 </Card>
               </Col>
               <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Card
-                  style={{ borderRadius: "7px" }}
+                  style={{ borderRadius: "7px", height: "100%" }}
                   bordered={false}
                   onClick={() => history.push("/recieve")}
                 >
                   <Row justify="space-around">
                     <img src={trackingBlue} alt="" />
-                    <h3>
+                    <h3 style={{textAlign: "center", ...styles.verCenter}}>
                       <strong>Receive Shipments</strong>
                     </h3>
-                    <h4>Scan the barcode</h4>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
+                  </Row>
+                </Card>
+              </Col>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <Card
+                  style={{ borderRadius: "7px", height: "100%" }}
+                  bordered={false}
+                  onClick={() => history.push("/orders")}
+                >
+                  <Row justify="space-around" align="center">
+                    <img src={trackingBlue} alt="" />
+                    <h3 style={{textAlign: "center", ...styles.verCenter}}>
+                      <strong>All Orders</strong>
+                    </h3>
+                    <h4 style={{textAlign: "center", ...styles.verCenter}}>Scan the barcode</h4>
                   </Row>
                 </Card>
               </Col>
